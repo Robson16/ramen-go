@@ -1,19 +1,19 @@
 // Hero
 
-$hero-background: url('/images/hero-background.png');
+$hero-background: url('/images/bg-pattern-red.png');
 
 .hero {
   padding-top: 1rem;
   padding-bottom: 1rem;
   width: 100%;
   min-height: 100vh;
-  background: $hero-background center center no-repeat;
-  background-size: cover;
-
+  background: $hero-background repeat;
+  background-size: 450px;
 
   .logo {
     order: 1;
     padding-top: 1rem;
+    padding-bottom: 2rem;
 
     @media (min-width: 992px) {
       position: absolute;
