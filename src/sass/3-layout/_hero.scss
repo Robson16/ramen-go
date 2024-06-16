@@ -1,0 +1,112 @@
+// Hero
+
+$hero-background: url('./images/hero-background.png');
+
+.hero {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  width: 100%;
+  min-height: 100vh;
+  background: $hero-background center center no-repeat;
+  background-size: cover;
+
+
+  .logo {
+    order: 1;
+    padding-top: 1rem;
+
+    @media (min-width: 992px) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 2rem;
+    }
+  }
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column-reverse;
+
+    @media (min-width: 992px) {
+      flex-direction: row;
+      gap: 1rem;
+    }
+  }
+
+  .texts {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+
+    @media (min-width: 992px) {
+      display: grid;
+      grid-template-areas:
+        'JA GO'
+        'TX TX'
+        'BT BT';
+      grid-template-columns: 48px auto;
+      grid-auto-rows: auto;
+      align-items: flex-end;
+      z-index: 1;
+    }
+
+    span {
+      grid-area: JA;
+      word-wrap: break-word;
+      font-family: monospace;
+      text-align: center;
+      white-space: pre-wrap;
+      font-size: 48px;
+      font-weight: 900;
+      color: rgb(var(--color--tertiary-rgb));
+    }
+
+    strong {
+      grid-area: GO;
+      font-size: 120px;
+      line-height: 1;
+      font-weight: 900;
+      text-align: center;
+      color: rgb(var(--color--white-rgb));
+
+      @media (min-width: 992px) { 
+        font-size: 160px; 
+      }
+    }
+
+    p {
+      grid-area: TX;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      text-align: center;
+      line-height: 24px;
+      color: rgb(var(--color--white-rgb));
+
+      @media (min-width: 992px) {
+        margin-top: 1rem;
+        max-width: 200px;
+        text-align: initial;
+      }
+    }
+
+    .cta {
+      grid-area: BT;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      @include button-active;
+    }
+  }
+
+  .illustration {
+    @media (min-width: 992px) {
+      max-height: 95vh;
+      margin-left: -200px;
+    }
+  }
+}
