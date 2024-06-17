@@ -28,8 +28,6 @@ class CarteSection extends HTMLElement {
   }
 
   render() {
-    console.log(this.broths);
-
     if (this.broths.length > 0 && this.proteins.length > 0 && !this.rendered) {
       // Checks if the data is loaded and has not yet been rendered
       this.innerHTML = `
@@ -44,7 +42,7 @@ class CarteSection extends HTMLElement {
                   <input type="radio" id="${broth.id}" name="brothId" value="${broth.id}" required>
                   <label class="option" for="${broth.id}">
                     <img class="img-active" src="${this.imagesBaseUrl}/${broth.imageActive}" alt="${broth.name}"> 
-                    <img class="img-inactive" src="${this.imagesBaseUrl}/${broth.imageActive}" alt="${broth.name}"> 
+                    <img class="img-inactive" src="${this.imagesBaseUrl}/${broth.imageInactive}" alt="${broth.name}"> 
                     <span class="name">${broth.name}</span>
                     <span class="description">${broth.description}</span>
                     <span class="price">US$ ${broth.price}</span>
@@ -59,7 +57,8 @@ class CarteSection extends HTMLElement {
                 ${this.proteins.map(protein => `
                   <input type="radio" id="${protein.id}" name="proteinId" value="${protein.id}" required>
                   <label class="option" for="${protein.id}"> 
-                    <img src="${this.imagesBaseUrl}/${protein.imageInactive}" alt="${protein.name}"> 
+                    <img class="img-active" src="${this.imagesBaseUrl}/${protein.imageActive}" alt="${protein.name}"> 
+                    <img class="img-inactive" src="${this.imagesBaseUrl}/${protein.imageInactive}" alt="${protein.name}"> 
                     <span class="name">${protein.name}</span>
                     <span class="description">${protein.description}</span>
                     <span class="price">US$ ${protein.price}</span>                   
