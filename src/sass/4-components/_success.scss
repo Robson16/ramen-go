@@ -15,15 +15,15 @@ $background-pattern: url('/images/bg-pattern-blue.png');
   }
 
   .logo {
-    order: 1;
-    padding-top: 1rem;
-    padding-bottom: 2rem;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    padding: 2rem;
+    transform: translateX(-50%);
 
     @media (min-width: 992px) {
-      position: absolute;
-      top: 0;
       left: 0;
-      padding: 2rem;
+      transform: unset;
     }
   }
 
@@ -34,8 +34,10 @@ $background-pattern: url('/images/bg-pattern-blue.png');
     justify-content: center;
     flex: 1;
     gap: 15px;
+    padding: 60px 15px;
 
     &:first-of-type {
+      padding-top: 100px;
       background: $background-pattern repeat;
       background-size: 450px;
 
@@ -75,6 +77,10 @@ $background-pattern: url('/images/bg-pattern-blue.png');
         font-weight: 900;
         text-align: center;
         color: rgb(var(--color--secondary-rgb));
+      }
+
+      p {
+        text-align: center;
       }
 
       a {
