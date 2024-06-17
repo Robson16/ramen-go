@@ -12,7 +12,8 @@ class HeroSection extends HTMLElement {
           <span lang="ja">ラーメン</span>
           <strong>GO!</strong>
           <p>Enjoy a good ramen in the comfort of your house. Create your own ramen and choose your favorite flavour combination!</p>
-          <a href="#" class="cta">ORDER NOW
+          <a href="#" class="cta">
+            ORDER NOW
             <img src="${arrowRight}" alt="arrow right icon">
           </a>
         </div>

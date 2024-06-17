@@ -1,8 +1,4 @@
-import ramenGoLogo from '/svg/ramen-go-logo.svg';
-import arrowRight from '/svg/arrow-right.svg';
-import heroIllustration from '/svg/hero-illustration.svg';
-
-export function home() {
+export function homeView() {
   const appElement = document.getElementById('app');
 
   appElement.innerHTML = `

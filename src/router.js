@@ -1,13 +1,17 @@
 import Navigo from 'navigo';
-import { home } from './views/home-view';
+import { homeView } from './views/home-view';
+import { successView } from './views/success-view';
 
 const root = null;
 const useHash = false;
 const hash = '#';
 const router = new Navigo(root, useHash, hash);
 
-router.on({
-  '/': () => home(),
-  '/about': () => {},
-  '/contact': () => {}
-}).resolve();
+router
+  .on('/', homeView)
+  .on('/success/:description', ({ data }) => {
+    successView(data.description);
+  })
+  .resolve();
+
+export default router;
