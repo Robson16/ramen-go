@@ -1,6 +1,10 @@
 // Buttons Mixins
 
 @mixin button-base {
+	display: inline-flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
 	max-width: 213px;
 	padding: 1rem;
 	font-size: 14px;

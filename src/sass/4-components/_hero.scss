@@ -95,10 +95,6 @@ $hero-background: url('/images/bg-pattern-red.png');
 
     .cta {
       grid-area: BT;
-      display: inline-flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
       @include button-active;
     }
   }
