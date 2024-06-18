@@ -32,7 +32,7 @@ class CarteSection extends HTMLElement {
     if (this.broths.length > 0 && this.proteins.length > 0 && !this.rendered) {
       // Checks if the data is loaded and has not yet been rendered
       this.innerHTML = `
-        <section class="carte">
+        <section id="carte" class="carte">
           <div class="container">
             <form id="orderForm">
               <p class="title">First things first: select your favorite broth.</p>

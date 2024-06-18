@@ -4,6 +4,11 @@ import heroIllustration from '/svg/hero-illustration.svg';
 
 class HeroSection extends HTMLElement {
   connectedCallback() {
+    this.render();
+    this.setupScrollToCarte();
+  }
+
+  render() {
     this.innerHTML = `
       <section class="hero">
         <div class="container">
@@ -12,7 +17,7 @@ class HeroSection extends HTMLElement {
             <span lang="ja">ラーメン</span>
             <strong>GO!</strong>
             <p>Enjoy a good ramen in the comfort of your house. Create your own ramen and choose your favorite flavour combination!</p>
-            <a href="#" class="cta">
+            <a href="#" id="cta" class="cta">
               ORDER NOW
               <img src="${arrowRight}" alt="arrow right icon">
             </a>
@@ -22,6 +27,14 @@ class HeroSection extends HTMLElement {
         <!-- /.container -->
       </section>
     `;
+  }
+
+  setupScrollToCarte() {
+    const ctaButton = this.querySelector('#cta');
+    ctaButton.addEventListener('click', () => {
+      const carteSection = document.querySelector('#carte');
+      carteSection.scrollIntoView({ behavior: 'smooth' });
+    });
   }
 }
 
