@@ -3,3 +3,11 @@
 .button {
   @include button-base;
 }
+
+.button-active {
+  @include button-active;
+}
+
+.button-inative {
+  @include button-inative;
+}

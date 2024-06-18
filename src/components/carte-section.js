@@ -22,6 +22,7 @@ class CarteSection extends HTMLElement {
   connectedCallback() {
     this.getIngredients().then(() => {
       this.render();
+      this.setupFormListeners();
     });
 
     this.addEventListener('submit', this.handleSubmit.bind(this));
@@ -75,6 +76,31 @@ class CarteSection extends HTMLElement {
       `;
 
       this.rendered = true; // Mark as rendered
+    }
+  }
+
+  setupFormListeners() {
+    const form = this.querySelector('#orderForm');
+    const inputs = form.querySelectorAll('input[type="radio"]');
+    const submitButton = form.querySelector('.submit');
+
+    inputs.forEach(input => {
+      input.addEventListener('change', () => {
+        this.checkFormValidity(form, submitButton);
+      });
+    });
+  }
+
+  checkFormValidity(form, submitButton) {
+    const isValid = form.checkValidity();
+    if (isValid) {
+      submitButton.classList.remove('button-inactive');
+      submitButton.classList.add('button-active');
+      submitButton.disabled = false;
+    } else {
+      submitButton.classList.remove('button-active');
+      submitButton.classList.add('button-inactive');
+      submitButton.disabled = true;
     }
   }
 
