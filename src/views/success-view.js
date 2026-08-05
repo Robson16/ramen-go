@@ -27,8 +27,6 @@ export function successView(description) {
         <span lang="ja">どもありがとうございます。</span>
         <strong>Your order is being prepared</strong>
         <p>Hold on, when you least expect you will be eating your rámen.</p>
-        {/* This link allows the user to return to the home page to place a new order.
-            The Navigo router will intercept this and render the home view without a full page reload. */}
         <a href="/" class="cta">
           PLACE NEW ORDER
           <img src="${arrowRight}" alt="arrow right icon">

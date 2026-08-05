@@ -6,6 +6,12 @@ Bem-vindo ao RamenGo! Uma aplicação web simples e elegante para pedir seu lám
 
 Este é o repositório do front-end para o projeto RamenGo. A aplicação permite que os usuários personalizem e peçam seu próprio lámen, escolhendo entre uma variedade de caldos (broths) e proteínas. Após a confirmação do pedido, o usuário é redirecionado para uma página de sucesso.
 
+## 🎨 Layout 
+
+O design da aplicação foi criado no Figma e pode ser acessado através do seguinte link:
+
+[**Layout no Figma**](https://www.figma.com/design/uDdX536s8ylGc6TVSstATk/RamenGo-%5B2022%5D?node-id=1-21&t=1lJRXdvwphTCg64Q-1)
+
 ## ✨ Funcionalidades
 
 -   Visualização de opções de caldos e proteínas com imagens, descrição e preço.
@@ -37,13 +43,20 @@ Para rodar este projeto localmente, siga os passos abaixo:
     ```
 
 3.  **Configure as variáveis de ambiente:**
-    Crie um arquivo `.env` na raiz do projeto e adicione as seguintes variáveis, substituindo pelos valores da sua API:
+    Crie um arquivo `.env` na raiz do projeto com as variáveis abaixo. O arquivo pode ser baseado no exemplo em `.env.example`:
 
+    ```env
+    VITE_IMAGES_BASE_URL=https://pub-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.r2.dev
+    VITE_API_BASE_URL=http://localhost:3333
+    VITE_API_KEY=sua-chave-de-api
     ```
-    VITE_API_BASE_URL=https://api.tech.redventures.com.br
-    VITE_IMAGES_BASE_URL=https://api.tech.redventures.com.br/images
-    VITE_API_KEY=sua-chave-de-api-secreta
-    ```
+
+    Descrição de cada variável:
+    - `VITE_IMAGES_BASE_URL`: URL base onde as imagens do projeto estão hospedadas.
+    - `VITE_API_BASE_URL`: URL base da API backend que o front-end vai consumir.
+    - `VITE_API_KEY`: chave de autenticação enviada nas requisições para a API.
+
+    Se você estiver usando a API localmente, mantenha as URLs apontando para `http://localhost:3333`. Se estiver usando um ambiente remoto, substitua pelos valores corretos fornecidos pelo backend.
 
 4.  **Inicie o servidor de desenvolvimento:**
     ```bash

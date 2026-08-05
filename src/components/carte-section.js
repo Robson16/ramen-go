@@ -1,5 +1,7 @@
 // Imports the router to navigate to other pages.
 import router from '../router';
+// Imports the global styles as a string to be injected into the Shadow DOM.
+import globalStyles from '../sass/styles.scss?inline';
 // Imports the arrow icon to be used in the submit button.
 import arrowRight from '/svg/white-arrow-right.svg';
 
@@ -37,12 +39,10 @@ class CarteSection extends HTMLElement {
 
   // Lifecycle method, called automatically when the element is added to the DOM.
   connectedCallback() {
-    // Starts fetching ingredients from the API. When the fetch is complete (Promise resolved),
-    // it renders the content and sets up the form event listeners.
-    this.getIngredients().then(() => {
-      this.render();
-      this.setupFormListeners();
-    });
+    // Immediately render the loading state to provide user feedback.
+    this.renderLoadingState();
+    // When the component is added to the page, start the process of fetching data and rendering.
+    this.getIngredients();
   }
 
   render() {
@@ -51,6 +51,9 @@ class CarteSection extends HTMLElement {
     if (this.broths.length > 0 && this.proteins.length > 0 && !this.rendered) {
       // Sets the HTML content inside the component's Shadow DOM.
       this.shadowRoot.innerHTML = `
+        <style>
+          ${globalStyles}
+        </style>
         <section id="carte" class="carte">
           <div class="container">
             <form id="orderForm">
@@ -58,7 +61,6 @@ class CarteSection extends HTMLElement {
               <p class="subtitle">It will give the whole flavor on your ramen soup.</p>
             
               <div class="options-group">
-                {/* Iterates over the broths list and creates an input/label for each one. */}
                 ${this.broths.map(broth => `
                   <input type="radio" id="${broth.id}" name="brothId" value="${broth.id}" required>
                   <label class="option" for="${broth.id}">
@@ -75,7 +77,6 @@ class CarteSection extends HTMLElement {
               <p class="subtitle">Some people love, some don’t. We have options for all tastes.</p>
               
               <div class="options-group">
-                {/* Iterates over the proteins list and creates an input/label for each one. */}
                 ${this.proteins.map(protein => `
                   <input type="radio" id="${protein.id}" name="proteinId" value="${protein.id}" required>
                   <label class="option" for="${protein.id}"> 
@@ -99,6 +100,37 @@ class CarteSection extends HTMLElement {
       // Updates the flag to indicate that the initial render is complete.
       this.rendered = true;
     }
+  }
+
+  // Renders a loading state while fetching data.
+  renderLoadingState() {
+    this.shadowRoot.innerHTML = `
+      <style>
+        .loader {
+          border: 8px solid #f3f3f3; /* Light grey */
+          border-top: 8px solid #3498db; /* Blue */
+          border-radius: 50%;
+          width: 60px;
+          height: 60px;
+          animation: spin 1.5s linear infinite;
+          margin: 0 auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+      </style>
+      <section class="carte" style="text-align: center; padding: 100px 20px;">
+        <div class="loader"></div>
+        <p style="margin-top: 20px; font-family: 'M PLUS Rounded 1c', sans-serif;">Loading menu...</p>
+      </section>
+    `;
+  }
+
+  // Renders an error message inside the component if API calls fail.
+  renderErrorState(message) {
+    this.shadowRoot.innerHTML = `
+      <section class="carte" style="text-align: center; padding: 40px;">
+        <p style="color: red;">Could not load menu. ${message}</p>
+      </section>
+    `;
   }
 
   // Sets up the event listeners for the form.
@@ -169,11 +201,14 @@ class CarteSection extends HTMLElement {
       this.broths = brothsResult.broths;
       this.proteins = proteinsResult.proteins;
 
-      // After loading the data, call render() again to ensure the interface is updated.
+      // After successfully fetching the data, render the component and set up its interactions.
       this.render();
+      this.setupFormListeners();
     } catch (error) {
       // Catches and logs any error that occurs during the API calls.
-      console.error('Houve um problema com a chamada fetch:', error);
+      console.error('Failed to fetch ingredients:', error);
+      // Render an error message for the user.
+      this.renderErrorState('Please check your API configuration and try again later.');
     }
   }
 

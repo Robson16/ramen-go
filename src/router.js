@@ -5,7 +5,7 @@ import { homeView } from './views/home-view';
 import { successView } from './views/success-view';
 
 // Configuration for the Navigo router.
-const root = null;
+const root = '/';
 const useHash = false;
 const hash = '#';
 

@@ -3,6 +3,8 @@
 import ramenGoLogo from '/svg/ramen-go-logo.svg';
 import arrowRight from '/svg/arrow-right.svg';
 import heroIllustration from '/svg/hero-illustration.svg';
+// Imports the global styles as a string to be injected into the Shadow DOM.
+import globalStyles from '../sass/styles.scss?inline';
 
 // Defines the class for our Web Component.
 // It extends HTMLElement, the base class for all HTML elements in the DOM.
@@ -30,11 +32,7 @@ class HeroSection extends HTMLElement {
     // and to interpolate variables for the imported asset paths.
     this.shadowRoot.innerHTML = `
       <style>
-        /* 
-          Component-specific styles would go here. 
-          They are completely encapsulated and won't affect the rest of the page.
-          To use the global styles, you can import them using @import.
-        */
+        ${globalStyles}
       </style>
       <section class="hero">
         <div class="container">
