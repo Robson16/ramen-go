@@ -22,9 +22,10 @@ O design da aplicação foi criado no Figma e pode ser acessado através do segu
 
 ## 🚀 Tecnologias Utilizadas
 
--   **Vite:** Build tool para desenvolvimento web moderno.
--   **JavaScript (Vanilla):** Linguagem principal da aplicação, sem uso de frameworks.
--   **Web Components:** Para criar componentes de UI reutilizáveis e encapsulados.
+-   **Next.js:** Framework React para produção.
+-   **React:** Biblioteca para construir interfaces de usuário.
+-   **TypeScript:** Superset de JavaScript que adiciona tipagem estática.
+-   **Tailwind CSS:** Framework de CSS utility-first para estilização.
 -   **HTML5 & CSS3:** Estrutura e estilização da página.
 
 ## ⚙️ Configuração e Instalação
@@ -46,15 +47,15 @@ Para rodar este projeto localmente, siga os passos abaixo:
     Crie um arquivo `.env` na raiz do projeto com as variáveis abaixo. O arquivo pode ser baseado no exemplo em `.env.example`:
 
     ```env
-    VITE_IMAGES_BASE_URL=https://pub-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.r2.dev
-    VITE_API_BASE_URL=http://localhost:3333
-    VITE_API_KEY=sua-chave-de-api
+    NEXT_PUBLIC_IMAGES_BASE_URL=https://pub-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.r2.dev
+    NEXT_PUBLIC_API_BASE_URL=http://localhost:3333
+    NEXT_PUBLIC_API_KEY=sua-chave-de-api
     ```
 
     Descrição de cada variável:
-    - `VITE_IMAGES_BASE_URL`: URL base onde as imagens do projeto estão hospedadas.
-    - `VITE_API_BASE_URL`: URL base da API backend que o front-end vai consumir.
-    - `VITE_API_KEY`: chave de autenticação enviada nas requisições para a API.
+    - `NEXT_PUBLIC_IMAGES_BASE_URL`: URL base onde as imagens do projeto estão hospedadas.
+    - `NEXT_PUBLIC_API_BASE_URL`: URL base da API backend que o front-end vai consumir.
+    - `NEXT_PUBLIC_API_KEY`: chave de autenticação enviada nas requisições para a API.
 
     Se você estiver usando a API localmente, mantenha as URLs apontando para `http://localhost:3333`. Se estiver usando um ambiente remoto, substitua pelos valores corretos fornecidos pelo backend.
 
@@ -63,7 +64,7 @@ Para rodar este projeto localmente, siga os passos abaixo:
     npm run dev
     ```
 
-    A aplicação estará disponível em `http://localhost:5173` (ou outra porta indicada pelo Vite).
+    A aplicação estará disponível em `http://localhost:3000`.
 
 ## 🌐 API
 

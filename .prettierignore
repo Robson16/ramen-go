@@ -1,0 +1,9 @@
+node_modules
+.next
+build
+dist
+out
+public
+*.config.js
+*.config.mjs
+package-lock.json
