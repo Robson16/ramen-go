@@ -1,4 +1,4 @@
-import './_styles/globals.css'
+import './globals.css'
 
 import type { Metadata } from 'next'
 import { M_PLUS_Rounded_1c } from 'next/font/google'
@@ -14,10 +14,14 @@ export const metadata: Metadata = {
   description:
     'Bem-vindo ao RamenGo! Uma aplicação web simples e elegante para pedir seu lámen favorito online.',
   icons: {
-    icon: '/images/favicon.png',
+    icon: '/favicon.png',
   },
 }
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
-  return <div className={`${mPlusRounded1c.variable}`}>{children}</div>
+  return (
+    <html lang="pt-BR" className={mPlusRounded1c.variable}>
+      <body suppressHydrationWarning>{children}</body>
+    </html>
+  )
 }

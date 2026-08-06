@@ -1,27 +1,30 @@
 @import "tailwindcss";
 
 :root {
-  /* Cores base para o tema claro (light) */
-  /* Branco */
+  /* Base colors for the light theme. */
   --background: 250 250 250;
-  /* Preto */
   --foreground: 0 0 0;
-  /* Azul */
+
+  /* White */
+  --white: 255 255 255;
+  /* Blue */
   --primary: 24 32 239;
-  /* Vermelho */
+  /* Red */
   --secondary: 255 78 66;
-  /* Amarelo */
+  /* Yellow */
   --tertiary: 255 192 36;
 
+  /* Content Size */
   --content-size: 1087px;
 }
 
 @theme inline {
+  --color-white: rgb(var(--white));
   --color-background: rgb(var(--background));
   --color-foreground: rgb(var(--foreground));
-  --color-primary: rgb(var(--primary) / <alpha-value>);
-  --color-secondary: rgb(var(--secondary) / <alpha-value>);
-  --color-tertiary: rgb(var(--tertiary) / <alpha-value>);
+  --color-primary: rgb(var(--primary));
+  --color-secondary: rgb(var(--secondary));
+  --color-tertiary: rgb(var(--tertiary));
   --font-m-plus-rounded-1cc: var(--font-m-plus-rounded-1c);
   --max-width-content: var(--content-size);
 }
