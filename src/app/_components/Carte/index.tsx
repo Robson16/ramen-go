@@ -5,6 +5,7 @@ import { AxiosError } from 'axios'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 
 import { api } from '@/app/_lib/axios'
 import { env } from '@/app/env'
@@ -20,11 +21,24 @@ interface Ingredient {
   price: number
 }
 
+interface OrderFormData {
+  brothId: string
+  proteinId: string
+}
+
 export function Carte() {
   const [selectedBrothId, setSelectedBrothId] = useState<string | null>(null)
   const [selectedProteinId, setSelectedProteinId] = useState<string | null>(
     null,
   )
+
+  const {
+    register,
+    handleSubmit,
+    formState: { isValid, isSubmitting },
+  } = useForm<OrderFormData>({
+    mode: 'onChange', // Valida o formulário a cada clique
+  })
 
   const {
     data: broths = [],
@@ -57,11 +71,11 @@ export function Carte() {
 
   const router = useRouter()
 
-  const handleSubmit = async () => {
+  const handleOrderSubmit = async (data: OrderFormData) => {
     try {
       const response = await api.post('/orders', {
-        brothId: selectedBrothId,
-        proteinId: selectedProteinId,
+        brothId: data.brothId,
+        proteinId: data.proteinId,
       })
 
       const { description } = response.data
@@ -99,7 +113,6 @@ export function Carte() {
   const renderOptions = (
     items: Ingredient[],
     groupName: 'brothId' | 'proteinId',
-    setter: (id: string) => void,
   ) =>
     items.map((item) => (
       <label
@@ -108,11 +121,9 @@ export function Carte() {
       >
         <input
           type="radio"
-          name={groupName}
           value={item.id}
           className="peer sr-only"
-          onChange={() => setter(item.id)}
-          required
+          {...register(groupName, { required: true })}
         />
 
         <Image
@@ -145,7 +156,7 @@ export function Carte() {
   return (
     <section id="carte" className="bg-white py-16">
       <div className="max-w-content mx-auto w-full px-4">
-        <form action={handleSubmit}>
+        <form onSubmit={handleSubmit(handleOrderSubmit)}>
           <div className="text-center">
             <p className="text-foreground text-2xl font-bold">
               First things first: select your favorite broth.
@@ -155,7 +166,7 @@ export function Carte() {
             </p>
           </div>
           <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-            {renderOptions(broths, 'brothId', setSelectedBrothId)}
+            {renderOptions(broths, 'brothId')}
           </div>
 
           <div className="mt-16 text-center">
@@ -167,16 +178,16 @@ export function Carte() {
             </p>
           </div>
           <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-            {renderOptions(proteins, 'proteinId', setSelectedProteinId)}
+            {renderOptions(proteins, 'proteinId')}
           </div>
 
           <div className="mt-16 text-center">
             <button
               type="submit"
               className="bg-secondary inline-flex cursor-pointer items-center gap-4 rounded-full px-8 py-4 font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
-              disabled={!selectedBrothId || !selectedProteinId}
+              disabled={!isValid || isSubmitting}
             >
-              PLACE MY ORDER
+              {isSubmitting ? 'PLACING ORDER...' : 'PLACE MY ORDER'}
               <Image
                 src={whiteArrowRight}
                 alt="arrow"
