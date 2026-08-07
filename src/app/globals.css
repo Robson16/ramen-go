@@ -29,12 +29,7 @@
   --max-width-content: var(--content-size);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: 10 10 10;
-    --foreground: 237 237 237;
-  }
-}
+
 
 body {
   background: rgb(var(--background));
