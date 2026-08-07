@@ -1,7 +1,9 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 import { api } from '@/app/_lib/axios'
@@ -53,14 +55,33 @@ export function Carte() {
   const isLoading = isLoadingBroths || isLoadingProteins
   const hasError = isErrorBroths || isErrorProteins
 
+  const router = useRouter()
+
   const handleSubmit = async () => {
-    console.log('Submitting order...')
+    try {
+      const response = await api.post('/orders', {
+        brothId: selectedBrothId,
+        proteinId: selectedProteinId,
+      })
+
+      const { description } = response.data
+
+      router.push(`/success/${encodeURIComponent(description)}`)
+    } catch (error) {
+      if (error instanceof AxiosError && error?.response?.data?.message) {
+        // TODO: Usar um toast para exibir erro
+        alert(error.response.data.message)
+        return
+      }
+
+      console.error(error)
+    }
   }
 
   if (isLoading) {
     return (
       <section className="flex h-64 items-center justify-center">
-        <div className="h-16 w-16 animate-spin rounded-full border-8 border-gray-200 border-t-blue-600" />
+        <div className="border-t-primary h-16 w-16 animate-spin rounded-full border-8 border-gray-200" />
       </section>
     )
   }
@@ -68,7 +89,7 @@ export function Carte() {
   if (hasError) {
     return (
       <section className="py-10 text-center">
-        <p className="text-red-500">
+        <p className="text-secondary">
           Could not load menu. Please try again later.
         </p>
       </section>
@@ -122,14 +143,14 @@ export function Carte() {
     ))
 
   return (
-    <section id="carte" className="bg-gray-50 py-16">
+    <section id="carte" className="bg-white py-16">
       <div className="max-w-content mx-auto w-full px-4">
         <form action={handleSubmit}>
           <div className="text-center">
-            <p className="text-2xl font-bold text-gray-800">
+            <p className="text-foreground text-2xl font-bold">
               First things first: select your favorite broth.
             </p>
-            <p className="mt-1 text-gray-600">
+            <p className="text-foreground mt-1">
               It will give the whole flavor on your ramen soup.
             </p>
           </div>
@@ -138,10 +159,10 @@ export function Carte() {
           </div>
 
           <div className="mt-16 text-center">
-            <p className="text-2xl font-bold text-gray-800">
+            <p className="text-foreground text-2xl font-bold">
               It’s time to choose (or not) your meat!
             </p>
-            <p className="mt-1 text-gray-600">
+            <p className="text-foreground mt-1">
               Some people love, some don’t. We have options for all tastes.
             </p>
           </div>
