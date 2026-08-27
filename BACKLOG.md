@@ -21,8 +21,8 @@ Este documento mapeia todas as tarefas necessárias para atualizar a interface w
 
 > _"Como usuário, quero poder recuperar minha senha caso a tenha esquecido."_
 
-- [ ] Criar tela de "Esqueci minha senha" integrando com `POST /users/password-reset` (envio de e-mail).
-- [ ] Criar tela de "Redefinir senha" (acessada via link de e-mail) integrando com `PATCH /users/password-reset`.
+- [x] Criar tela de "Esqueci minha senha" integrando com `POST /users/password-reset` (envio de e-mail).
+- [x] Criar tela de "Redefinir senha" (acessada via link de e-mail) integrando com `PATCH /users/password-reset`.
 
 ---
 

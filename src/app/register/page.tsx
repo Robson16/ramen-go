@@ -1,8 +1,10 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Eye, EyeOff } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -21,7 +23,9 @@ const registerSchema = z.object({
 type RegisterFormInputs = z.infer<typeof registerSchema>
 
 export default function RegisterPage() {
+  const [showPassword, setShowPassword] = useState(false)
   const router = useRouter()
+
   const {
     register,
     handleSubmit,
@@ -97,12 +101,21 @@ export default function RegisterPage() {
             <label className="mb-1 block text-sm font-medium text-zinc-700">
               Password
             </label>
-            <input
-              type="password"
-              className="w-full rounded-lg border border-zinc-300 p-3 outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
-              placeholder="********"
-              {...register('password')}
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                className="w-full rounded-lg border border-zinc-300 p-3 outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                placeholder="********"
+                {...register('password')}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute top-1/2 right-3 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 focus:outline-none"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
             {errors.password && (
               <span className="mt-1 text-sm text-red-500">
                 {errors.password.message}

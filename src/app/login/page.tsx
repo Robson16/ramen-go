@@ -1,9 +1,11 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Eye, EyeOff } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { setCookie } from 'nookies'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -22,6 +24,10 @@ const loginSchema = z.object({
 type LoginFormInputs = z.infer<typeof loginSchema>
 
 export default function LoginPage() {
+  const [showPassword, setShowPassword] = useState(false)
+  const router = useRouter()
+  const setUser = useAuthStore((state) => state.setUser)
+
   const {
     register,
     handleSubmit,
@@ -29,10 +35,6 @@ export default function LoginPage() {
   } = useForm<LoginFormInputs>({
     resolver: zodResolver(loginSchema),
   })
-
-  const router = useRouter()
-
-  const setUser = useAuthStore((state) => state.setUser)
 
   async function handleLogin(data: LoginFormInputs) {
     try {
@@ -96,13 +98,22 @@ export default function LoginPage() {
             <label className="mb-1 block text-sm font-medium text-zinc-700">
               Password
             </label>
-            <input
-              type="password"
-              className="w-full rounded-lg border border-zinc-300 p-3 outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
-              placeholder="********"
-              {...register('password')}
-            />
-            <div className="flex flex-col gap-1">
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                className="w-full rounded-lg border border-zinc-300 p-3 pr-12 outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                placeholder="********"
+                {...register('password')}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute top-1/2 right-3 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 focus:outline-none"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
+            <div className="mt-2 flex flex-col gap-1">
               <Link
                 href="/forgot-password"
                 className="text-xs text-red-500 hover:underline"
