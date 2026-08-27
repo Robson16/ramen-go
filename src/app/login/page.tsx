@@ -7,15 +7,16 @@ import { setCookie } from 'nookies'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import bgPatternRed from '@/app/_assets/images/bg-pattern-red.png'
+import { Header } from '@/app/_components/Header'
 import { api } from '@/app/_lib/axios'
 import { useAuthStore } from '@/app/_store/auth'
 
-import { Header } from '@/app/_components/Header'
-import bgPatternRed from '@/app/_assets/images/bg-pattern-red.png'
-
 const loginSchema = z.object({
-  email: z.string().email('Digite um e-mail válido.'),
-  password: z.string().min(8, 'A senha deve ter pelo menos 8 caracteres.'),
+  email: z.string().email('Enter a valid email address.'),
+  password: z
+    .string()
+    .min(8, 'The password must be at least 8 characters long.'),
 })
 
 type LoginFormInputs = z.infer<typeof loginSchema>
@@ -60,7 +61,7 @@ export default function LoginPage() {
 
   return (
     <div
-      className="flex min-h-screen items-center justify-center bg-zinc-50 bg-size-[450px] p-4"
+      className="flex min-h-screen items-center justify-center bg-size-[450px] p-4"
       style={{ backgroundImage: `url(${bgPatternRed.src})` }}
     >
       <Header />
@@ -101,11 +102,19 @@ export default function LoginPage() {
               placeholder="********"
               {...register('password')}
             />
-            {errors.password && (
-              <span className="mt-1 text-sm text-red-500">
-                {errors.password.message}
-              </span>
-            )}
+            <div className="flex flex-col gap-1">
+              <Link
+                href="/forgot-password"
+                className="text-xs text-red-500 hover:underline"
+              >
+                Forgot your password?
+              </Link>
+              {errors.password && (
+                <span className="text-sm text-red-500">
+                  {errors.password.message}
+                </span>
+              )}
+            </div>
           </div>
 
           <button
@@ -118,7 +127,7 @@ export default function LoginPage() {
         </form>
 
         <div className="mt-6 text-center text-sm text-zinc-600">
-          Don't have an account yet?{' '}
+          Don&apos;t have an account yet?{' '}
           <Link
             href="/register"
             className="font-semibold text-red-500 hover:underline"

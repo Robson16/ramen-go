@@ -1,12 +1,11 @@
 'use client'
 
 import Image from 'next/image'
-import { destroyCookie } from 'nookies'
 import { useRouter } from 'next/navigation'
-
-import { useAuthStore } from '@/app/_store/auth'
+import { destroyCookie } from 'nookies'
 
 import ramenGoLogo from '@/app/_assets/svg/ramen-go-logo.svg'
+import { useAuthStore } from '@/app/_store/auth'
 
 export function Header() {
   const router = useRouter()
@@ -26,7 +25,7 @@ export function Header() {
         <Image
           src={ramenGoLogo}
           alt="Ramen Go! Logo"
-          className="h-auto w-auto"
+          className="size-auto"
           priority
         />
 
@@ -35,7 +34,7 @@ export function Header() {
             <span className="hidden text-sm sm:inline">Hello, {user.name}</span>
             <button
               onClick={handleLogout}
-              className="hover:text-tertiary text-sm font-bold transition-colors"
+              className="text-sm font-bold transition-colors hover:text-tertiary"
             >
               Exit
             </button>

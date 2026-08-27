@@ -1,5 +1,6 @@
-import { env } from '@/app/env'
 import type { NextConfig } from 'next'
+
+import { env } from '@/app/env'
 
 const imagesUrl = new URL(env.NEXT_PUBLIC_IMAGES_BASE_URL)
 

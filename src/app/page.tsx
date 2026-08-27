@@ -2,8 +2,8 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 import { Carte } from '@/app/_components/Carte'
-import { Hero } from '@/app/_components/Hero'
 import { Header } from '@/app/_components/Header'
+import { Hero } from '@/app/_components/Hero'
 
 export default async function Home() {
   const cookieStore = await cookies()

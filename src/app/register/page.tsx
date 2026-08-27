@@ -6,10 +6,9 @@ import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { api } from '@/app/_lib/axios'
-
-import { Header } from '@/app/_components/Header'
 import bgPatternRed from '@/app/_assets/images/bg-pattern-red.png'
+import { Header } from '@/app/_components/Header'
+import { api } from '@/app/_lib/axios'
 
 const registerSchema = z.object({
   name: z.string().min(2, 'The name must have at least 3 characters.'),

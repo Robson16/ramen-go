@@ -12,6 +12,7 @@ const clientSchema = z.object({
 type Env = z.infer<typeof clientSchema>
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace NodeJS {
     interface ProcessEnv extends Env {}
   }

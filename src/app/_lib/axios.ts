@@ -1,7 +1,7 @@
 import axios from 'axios'
+import { parseCookies } from 'nookies'
 
 import { env } from '@/app/env'
-import { parseCookies } from 'nookies'
 
 const apiBaseUrl = env.NEXT_PUBLIC_API_BASE_URL
 

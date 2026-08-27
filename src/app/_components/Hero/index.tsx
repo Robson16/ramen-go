@@ -23,17 +23,17 @@ export function Hero() {
       className="relative flex min-h-screen w-full items-center justify-center bg-size-[450px] py-4"
       style={{ backgroundImage: `url(${bgPatternRed.src})` }}
     >
-      <div className="max-w-content w-full px-4">
+      <div className="w-full max-w-content px-4">
         <div className="flex flex-col-reverse items-center justify-center gap-8 lg:flex-row">
           <div className="z-10 flex flex-col items-center text-center lg:items-start lg:text-left">
             <h1 className="flex items-end justify-center gap-2 lg:justify-start">
               <span
                 lang="ja"
-                className="text-tertiary font-mono text-5xl font-black [writing-mode:vertical-rl]"
+                className="font-mono text-5xl font-black text-tertiary [writing-mode:vertical-rl]"
               >
                 ラーメン
               </span>
-              <strong className="font-heading text-[120px] leading-none font-black text-white lg:text-[160px]">
+              <strong className="font-m-plus-rounded-1cc text-[120px] leading-none font-black text-white lg:text-[160px]">
                 GO!
               </strong>
             </h1>
@@ -46,13 +46,13 @@ export function Hero() {
             <a
               href="#carte"
               onClick={handleScrollToCarte}
-              className="bg-primary mt-8 inline-flex items-center gap-10 rounded-full px-4 py-4 font-bold text-white transition-colors hover:bg-blue-700"
+              className="mt-8 inline-flex items-center gap-10 rounded-full bg-primary p-4 font-bold text-white transition-colors hover:bg-blue-700"
             >
               ORDER NOW
               <Image
                 src={arrowRight}
                 alt="arrow right icon"
-                className="h-auto w-auto"
+                className="size-auto"
               />
             </a>
           </div>
@@ -60,7 +60,7 @@ export function Hero() {
           <Image
             src={heroIllustration}
             alt="Delivery girl illustration"
-            className="h-auto w-auto max-w-xs shrink-0 lg:-ml-50 lg:max-h-[95vh] lg:max-w-none"
+            className="size-auto max-w-xs shrink-0 lg:-ml-50 lg:max-h-[95vh] lg:max-w-none"
             loading="eager"
           />
         </div>

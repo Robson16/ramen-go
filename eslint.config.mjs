@@ -8,7 +8,14 @@ import tailwind from "eslint-plugin-tailwindcss";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  ...tailwind.configs["flat/recommended"],
+  {
+    ...tailwind.configs.recommended,
+    settings: {
+      tailwindcss: {
+        cssConfigPath: './src/app/globals.css',
+      },
+    },
+  },
   {
     plugins: {
       "simple-import-sort": simpleImportSort,
