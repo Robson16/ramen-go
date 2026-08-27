@@ -6,7 +6,7 @@ Bem-vindo ao RamenGo! Uma aplicação web simples e elegante para pedir seu lám
 
 Este é o repositório do front-end para o projeto RamenGo. A aplicação permite que os usuários personalizem e peçam seu próprio lámen, escolhendo entre uma variedade de caldos (broths) e proteínas. Após a confirmação do pedido, o usuário é redirecionado para uma página de sucesso.
 
-## 🎨 Layout 
+## 🎨 Layout
 
 O design da aplicação foi criado no Figma e pode ser acessado através do seguinte link:
 
@@ -14,31 +14,33 @@ O design da aplicação foi criado no Figma e pode ser acessado através do segu
 
 ## ✨ Funcionalidades
 
--   Visualização de opções de caldos e proteínas com imagens, descrição e preço.
--   Seleção de um caldo e uma proteína para montar o pedido.
--   Validação de formulário em tempo real para habilitar o botão de pedido.
--   Envio do pedido para uma API backend.
--   Redirecionamento para uma página de sucesso com os detalhes do pedido.
+- Visualização de opções de caldos e proteínas com imagens, descrição e preço.
+- Seleção de um caldo e uma proteína para montar o pedido.
+- Validação de formulário em tempo real para habilitar o botão de pedido.
+- Envio do pedido para uma API backend.
+- Redirecionamento para uma página de sucesso com os detalhes do pedido.
 
 ## 🚀 Tecnologias Utilizadas
 
--   **Next.js:** Framework React para produção.
--   **React:** Biblioteca para construir interfaces de usuário.
--   **TypeScript:** Superset de JavaScript que adiciona tipagem estática.
--   **Tailwind CSS:** Framework de CSS utility-first para estilização.
--   **HTML5 & CSS3:** Estrutura e estilização da página.
+- **Next.js:** Framework React para produção.
+- **React:** Biblioteca para construir interfaces de usuário.
+- **TypeScript:** Superset de JavaScript que adiciona tipagem estática.
+- **Tailwind CSS:** Framework de CSS utility-first para estilização.
+- **HTML5 & CSS3:** Estrutura e estilização da página.
 
 ## ⚙️ Configuração e Instalação
 
 Para rodar este projeto localmente, siga os passos abaixo:
 
 1.  **Clone o repositório:**
+
     ```bash
     git clone https://github.com/seu-usuario/ramen-go.git
     cd ramen-go
     ```
 
 2.  **Instale as dependências:**
+
     ```bash
     npm install
     ```
@@ -60,6 +62,7 @@ Para rodar este projeto localmente, siga os passos abaixo:
     Se você estiver usando a API localmente, mantenha as URLs apontando para `http://localhost:3333`. Se estiver usando um ambiente remoto, substitua pelos valores corretos fornecidos pelo backend.
 
 4.  **Inicie o servidor de desenvolvimento:**
+
     ```bash
     npm run dev
     ```
@@ -70,8 +73,8 @@ Para rodar este projeto localmente, siga os passos abaixo:
 
 Este projeto front-end consome uma API backend para funcionar. A API deve fornecer os seguintes endpoints:
 
--   `GET /broths`: Retorna a lista de caldos disponíveis.
--   `GET /proteins`: Retorna a lista de proteínas disponíveis.
--   `POST /orders`: Recebe um novo pedido com `brothId` e `proteinId`.
+- `GET /broths`: Retorna a lista de caldos disponíveis.
+- `GET /proteins`: Retorna a lista de proteínas disponíveis.
+- `POST /orders`: Recebe um novo pedido com `brothId` e `proteinId`.
 
 É necessário uma chave de API (`x-api-key`) para autenticar as requisições.

@@ -13,22 +13,28 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check-up": "npm run format && npm run lint:fix"
+    "check-up": "npm run format && npm run lint:fix",
+    "release": "commit-and-tag-version"
   },
   "dependencies": {
+    "@hookform/resolvers": "5.9.1",
     "@tanstack/react-query": "5.101.4",
     "axios": "1.19.0",
+    "lucide-react": "1.34.0",
     "next": "16.3.0",
+    "nookies": "2.5.2",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-hook-form": "7.84.0",
-    "zod": "4.4.3"
+    "zod": "4.4.3",
+    "zustand": "5.0.15"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.3.3",
     "@types/node": "20.19.43",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.4",
+    "commit-and-tag-version": "13.1.2",
     "eslint": "9.39.5",
     "eslint-config-next": "16.3.0",
     "eslint-config-prettier": "10.1.8",
@@ -38,5 +44,8 @@
     "prettier-plugin-tailwindcss": "0.8.1",
     "tailwindcss": "4.3.3",
     "typescript": "5.9.3"
+  },
+  "allowScripts": {
+    "unrs-resolver@1.12.2": true
   }
 }

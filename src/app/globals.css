@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   /* Base colors for the light theme. */
@@ -28,8 +28,6 @@
   --font-m-plus-rounded-1cc: var(--font-m-plus-rounded-1c);
   --max-width-content: var(--content-size);
 }
-
-
 
 body {
   background: rgb(var(--background));
