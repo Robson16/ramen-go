@@ -6,7 +6,6 @@ import { MouseEvent } from 'react'
 import bgPatternRed from '@/app/_assets/images/bg-pattern-red.png'
 import arrowRight from '@/app/_assets/svg/arrow-right.svg'
 import heroIllustration from '@/app/_assets/svg/hero-illustration.svg'
-import ramenGoLogo from '@/app/_assets/svg/ramen-go-logo.svg'
 
 export function Hero() {
   const handleScrollToCarte = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -25,12 +24,6 @@ export function Hero() {
       style={{ backgroundImage: `url(${bgPatternRed.src})` }}
     >
       <div className="max-w-content w-full px-4">
-        <Image
-          src={ramenGoLogo}
-          alt="Ramen Go! Logo"
-          className="mx-auto mb-8 h-auto w-auto lg:absolute lg:top-8 lg:left-8 lg:mx-0 lg:mb-0"
-          priority
-        />
         <div className="flex flex-col-reverse items-center justify-center gap-8 lg:flex-row">
           <div className="z-10 flex flex-col items-center text-center lg:items-start lg:text-left">
             <h1 className="flex items-end justify-center gap-2 lg:justify-start">

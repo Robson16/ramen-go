@@ -3,77 +3,80 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { setCookie } from 'nookies'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { api } from '@/app/_lib/axios'
-import { useAuthStore } from '@/app/_store/auth'
 
 import { Header } from '@/app/_components/Header'
 import bgPatternRed from '@/app/_assets/images/bg-pattern-red.png'
 
-const loginSchema = z.object({
-  email: z.string().email('Digite um e-mail válido.'),
-  password: z.string().min(8, 'A senha deve ter pelo menos 8 caracteres.'),
+const registerSchema = z.object({
+  name: z.string().min(2, 'The name must have at least 3 characters.'),
+  email: z.string().email('Enter a valid email address.'),
+  password: z
+    .string()
+    .min(8, 'The password must be at least 8 characters long.'),
 })
 
-type LoginFormInputs = z.infer<typeof loginSchema>
+type RegisterFormInputs = z.infer<typeof registerSchema>
 
-export default function LoginPage() {
+export default function RegisterPage() {
+  const router = useRouter()
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormInputs>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<RegisterFormInputs>({
+    resolver: zodResolver(registerSchema),
   })
 
-  const router = useRouter()
-
-  const setUser = useAuthStore((state) => state.setUser)
-
-  async function handleLogin(data: LoginFormInputs) {
+  async function handleRegister(data: RegisterFormInputs) {
     try {
-      const response = await api.post('/sessions', data)
+      await api.post('/accounts', data)
 
-      const { access_token } = response.data
+      alert('Registration successful! Please log in.')
 
-      setCookie(undefined, '@ramenGo:accessToken', access_token, {
-        maxAge: 60 * 60 * 24 * 7, // 7 days
-        path: '/',
-      })
-
-      const profileResponse = await api.get('/profile', {
-        headers: { Authorization: `Bearer ${access_token}` },
-      })
-
-      setUser(profileResponse.data.user)
-
-      router.push('/')
+      router.push('/login')
     } catch (error) {
-      // TODO: Improve to a Toast
-      alert('Invalid credentials. Please try again.')
+      alert('Error registering. Please check your information and try again.')
       console.error(error)
     }
   }
 
   return (
     <div
-      className="flex min-h-screen items-center justify-center bg-zinc-50 bg-size-[450px] p-4"
+      className="flex min-h-screen items-center justify-center bg-size-[450px] p-4"
       style={{ backgroundImage: `url(${bgPatternRed.src})` }}
     >
       <Header />
 
       <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl">
         <h1 className="mb-6 text-center text-3xl font-bold text-red-500">
-          Login
+          Register a account
         </h1>
 
         <form
-          onSubmit={handleSubmit(handleLogin)}
+          onSubmit={handleSubmit(handleRegister)}
           className="flex flex-col gap-4"
         >
+          <div>
+            <label className="mb-1 block text-sm font-medium text-zinc-700">
+              Name
+            </label>
+            <input
+              type="text"
+              className="w-full rounded-lg border border-zinc-300 p-3 outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
+              placeholder="Your name"
+              {...register('name')}
+            />
+            {errors.name && (
+              <span className="mt-1 text-sm text-red-500">
+                {errors.name.message}
+              </span>
+            )}
+          </div>
+
           <div>
             <label className="mb-1 block text-sm font-medium text-zinc-700">
               E-mail
@@ -81,7 +84,7 @@ export default function LoginPage() {
             <input
               type="email"
               className="w-full rounded-lg border border-zinc-300 p-3 outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
-              placeholder="seu@email.com"
+              placeholder="your@email.com"
               {...register('email')}
             />
             {errors.email && (
@@ -113,17 +116,17 @@ export default function LoginPage() {
             disabled={isSubmitting}
             className="mt-4 w-full rounded-lg bg-red-500 p-3 font-bold text-white transition-colors hover:bg-red-600 disabled:opacity-50"
           >
-            {isSubmitting ? 'Getting in...' : 'Get in'}
+            {isSubmitting ? 'Registering...' : 'Register'}
           </button>
         </form>
 
         <div className="mt-6 text-center text-sm text-zinc-600">
-          Don't have an account yet?{' '}
+          Do you already have an account?{' '}
           <Link
-            href="/register"
+            href="/login"
             className="font-semibold text-red-500 hover:underline"
           >
-            Register
+            Log in
           </Link>
         </div>
       </div>

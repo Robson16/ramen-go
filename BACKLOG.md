@@ -10,10 +10,10 @@ Este documento mapeia todas as tarefas necessárias para atualizar a interface w
 
 ### User Story 1.1: Autenticação via JWT
 > *"Como usuário, quero poder me registrar e fazer login para acessar o cardápio e fazer pedidos."*
-- [ ] Configurar um cliente HTTP (`axios` interceptors) para injetar o token JWT em todas as requisições autenticadas.
-- [ ] Criar gerenciamento de estado global (Context API ou Zustand) para armazenar os dados do usuário logado e o token.
-- [ ] Criar página de Cadastro (Register) integrando com `POST /users`.
-- [ ] Criar página de Login integrando com `POST /sessions`.
+- [x] Configurar um cliente HTTP (`axios` interceptors) para injetar o token JWT em todas as requisições autenticadas.
+- [x] Criar gerenciamento de estado global (Context API ou Zustand) para armazenar os dados do usuário logado e o token.
+- [x] Criar página de Cadastro (Register) integrando com `POST /accounts`.
+- [x] Criar página de Login integrando com `POST /sessions`.
 
 ### User Story 1.2: Recuperação de Senha
 > *"Como usuário, quero poder recuperar minha senha caso a tenha esquecido."*
