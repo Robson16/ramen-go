@@ -72,6 +72,7 @@ export default function ForgotPasswordPage() {
             <form
               onSubmit={handleSubmit(handleSendResetEmail)}
               className="flex flex-col gap-4"
+              noValidate
             >
               <div>
                 <label className="mb-1 block text-sm font-medium text-zinc-700">

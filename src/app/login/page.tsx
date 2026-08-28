@@ -76,6 +76,7 @@ export default function LoginPage() {
         <form
           onSubmit={handleSubmit(handleLogin)}
           className="flex flex-col gap-4"
+          noValidate
         >
           <div>
             <label className="mb-1 block text-sm font-medium text-zinc-700">
@@ -84,7 +85,7 @@ export default function LoginPage() {
             <input
               type="email"
               className="w-full rounded-lg border border-zinc-300 p-3 outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
-              placeholder="seu@email.com"
+              placeholder="your@email.com"
               {...register('email')}
             />
             {errors.email && (
