@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.2.0](https://github.com/Robson16/ramen-go/compare/v2.1.0...v2.2.0) (2026-08-28)
+
+### Features
+
+* complete auth tests covering reset-password flow ([ec5ef83](https://github.com/Robson16/ramen-go/commit/ec5ef8316649f1ee8c1b7abfd8f572c8572f15ff))
 ## 2.1.0 (2026-08-27)
 
 ### Features
