@@ -118,7 +118,7 @@ Este documento mapeia todas as tarefas necessárias para atualizar a interface w
 
 - [x] Configurar ambiente de testes com **Vitest** e **React Testing Library**.
 - [x] Criar testes unitários para a store de autenticação do Zustand (garantir persistência e limpeza no logout).
-- [ ] Criar testes para os componentes base isolados (ex: validação de erro no formulário de login).
+- [x] Criar testes para os componentes base isolados (ex: validação de erro no formulário de login).
 
 ### User Story 6.2: Testes de Fluxo Completo (E2E)
 
