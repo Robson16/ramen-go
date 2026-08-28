@@ -101,6 +101,29 @@ Este documento mapeia todas as tarefas necessárias para atualizar a interface w
 
 > _"Como usuário, quero saber imediatamente se digitei uma senha errada ou se tentei acessar algo que não devo."_
 
-- [ ] Criar sistema global de Toasts/Snackbars (ex: `sonner` ou `react-hot-toast`) para exibir mensagens de sucesso ou erro vindas da API.
+- [ ] Criar sistema global de Toasts/Snackbars (instalar `sonner` ou `react-hot-toast`).
+- [ ] **Substituir todos os `alert()` temporários** (das telas de Login, Register e Forgot Password) por chamadas de Toast de sucesso/erro.
 - [ ] Tratar erro `401 Unauthorized` globalmente no Axios (deslogar o usuário e redirecionar para `/login` se o token expirar).
 - [ ] Tratar erros `409 Conflict` (ex: "Caldo já existente" ou "Pedido já entregue") com mensagens amigáveis na UI.
+
+---
+
+## 🧪 Épico 6: Qualidade e Testes Automatizados
+
+**Contexto:** Assegurar a estabilidade da aplicação simulando o comportamento real do usuário e testando regras de negócio isoladas no front-end.
+
+### User Story 6.1: Testes de Componentes e Regras (Unitários)
+
+> _"Como desenvolvedor, quero garantir que meus componentes renderizem corretamente e que a lógica de estado funcione sem falhas."_
+
+- [x] Configurar ambiente de testes com **Vitest** e **React Testing Library**.
+- [x] Criar testes unitários para a store de autenticação do Zustand (garantir persistência e limpeza no logout).
+- [ ] Criar testes para os componentes base isolados (ex: validação de erro no formulário de login).
+
+### User Story 6.2: Testes de Fluxo Completo (E2E)
+
+> _"Como QA, quero testar as jornadas críticas do usuário do início ao fim, simulando um navegador real."_
+
+- [ ] Instalar e configurar o **Playwright** (ou Cypress).
+- [ ] Escrever teste E2E para o fluxo: Login -> Selecionar ingredientes -> Enviar pedido -> Visualizar tela de sucesso.
+- [ ] Escrever teste E2E garantindo que usuários não logados são bloqueados na página Home.
