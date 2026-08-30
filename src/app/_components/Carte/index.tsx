@@ -30,7 +30,7 @@ export function Carte() {
     handleSubmit,
     formState: { isValid, isSubmitting },
   } = useForm<OrderFormData>({
-    mode: 'onChange', // Valida o formulário a cada clique
+    mode: 'onChange',
   })
 
   const {
@@ -66,14 +66,14 @@ export function Carte() {
 
   const handleOrderSubmit = async (data: OrderFormData) => {
     try {
-      const response = await api.post('/orders', {
+      const response = await api.post<{ id: string }>('/orders', {
         brothId: data.brothId,
         proteinId: data.proteinId,
       })
 
-      const { description } = response.data
+      const { id } = response.data
 
-      router.push(`/success/${encodeURIComponent(description)}`)
+      router.push(`/success/${id}`)
     } catch (error) {
       if (error instanceof AxiosError && error?.response?.data?.message) {
         // TODO: Usar um toast para exibir erro

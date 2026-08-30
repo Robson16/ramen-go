@@ -2,12 +2,12 @@ import { OrderDetails } from '../_components/OrderDetails'
 
 interface SuccessPageProps {
   params: Promise<{
-    order: string
+    orderId: string
   }>
 }
 
 export default async function SuccessPage({ params }: SuccessPageProps) {
-  const { order } = await params
+  const { orderId } = await params
 
-  return <OrderDetails orderDescription={order} />
+  return <OrderDetails orderId={orderId} />
 }
