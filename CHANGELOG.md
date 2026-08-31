@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.3.0](https://github.com/Robson16/ramen-go/compare/v2.2.0...v2.3.0) (2026-08-31)
+
+### Features
+
+* implement dynamic order fetching via JWT on success page ([52b2073](https://github.com/Robson16/ramen-go/commit/52b207325c73af08936d7d66367c97ef5b4e27cb))
+* **navigation:** add back button to order details and orders link to header ([ec86dff](https://github.com/Robson16/ramen-go/commit/ec86dffe34d2c9a716db57681d52ba7dfa5b38cb))
+* **orders:** create order list page with unit tests ([afc6458](https://github.com/Robson16/ramen-go/commit/afc6458f17d646788def0646f0e05e2cba17097e))
+* **profile:** implement user profile management and close epic 2 ([18ad8ae](https://github.com/Robson16/ramen-go/commit/18ad8ae74a46e4a71ddcf47a3b75ff6034a00023))
 ## [2.2.0](https://github.com/Robson16/ramen-go/compare/v2.1.0...v2.2.0) (2026-08-28)
 
 ### Features
