@@ -43,9 +43,9 @@ Este documento mapeia todas as tarefas necessárias para atualizar a interface w
 > _"Como cliente, quero ver meus pedidos anteriores e gerenciar minha conta."_
 
 - [x] Criar a página "Meus Pedidos" integrando com `GET /orders` (usando React Query para listagem).
-- [ ] Criar a página de "Meu Perfil" integrando com `GET /me`.
-- [ ] Adicionar formulário para edição de perfil (`PUT /me`).
-- [ ] Adicionar botão "Excluir Conta" com modal de confirmação (`DELETE /me`).
+- [x] Criar a página de "Meu Perfil" integrando com `GET /profile`.
+- [x] Adicionar formulário para edição de perfil (`PUT /profile`).
+- [x] Adicionar botão "Excluir Conta" com modal de confirmação (`DELETE /profile`).
 
 ---
 

@@ -12,6 +12,7 @@ interface AuthState {
   user: User | null
   setUser: (user: User | null) => void
   logout: () => void
+  updateUser: (name: string) => void
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -20,6 +21,10 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       setUser: (user) => set({ user }),
       logout: () => set({ user: null }),
+      updateUser: (name) =>
+        set((state) => ({
+          user: state.user ? { ...state.user, name } : null,
+        })),
     }),
     {
       name: '@ramenGo:auth-state',
