@@ -69,7 +69,7 @@ describe('Carte Component', () => {
     })
   })
 
-  it('should render loading state initially', () => {
+  it('should render loading state initially', async () => {
     mockedUseQuery.mockImplementation(
       () =>
         ({
@@ -81,12 +81,13 @@ describe('Carte Component', () => {
 
     render(<Carte />)
 
-    const spinner = document.querySelector('.animate-spin')
-
-    expect(spinner).toBeInTheDocument()
+    await waitFor(() => {
+      const spinner = document.querySelector('.animate-spin')
+      expect(spinner).toBeInTheDocument()
+    })
   })
 
-  it('should render error state if queries fail', () => {
+  it('should render error state if queries fail', async () => {
     mockedUseQuery.mockImplementation(
       () =>
         ({
@@ -99,7 +100,7 @@ describe('Carte Component', () => {
     render(<Carte />)
 
     expect(
-      screen.getByText('Could not load menu. Please try again later.'),
+      await screen.findByText('Could not load menu. Please try again later.'),
     ).toBeInTheDocument()
   })
 
