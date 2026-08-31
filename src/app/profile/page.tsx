@@ -1,7 +1,5 @@
 import { ArrowLeft } from 'lucide-react'
-import { cookies } from 'next/headers'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
 
 import bgPatternBlue from '@/app/_assets/images/bg-pattern-blue.png'
 import { Header } from '@/app/_components/Header'
@@ -9,13 +7,6 @@ import { Header } from '@/app/_components/Header'
 import { ProfileForm } from './_components/ProfileForm'
 
 export default async function ProfilePage() {
-  const cookieStore = await cookies()
-  const token = cookieStore.get('@ramenGo:accessToken')?.value
-
-  if (!token) {
-    redirect('/login')
-  }
-
   return (
     <main
       className="relative min-h-screen bg-size-[450px]"
