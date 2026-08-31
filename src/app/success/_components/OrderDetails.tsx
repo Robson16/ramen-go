@@ -1,6 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
+import { ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -59,9 +60,16 @@ export function OrderDetails({ orderId }: OrderDetailsProps) {
   return (
     <main className="flex min-h-screen flex-col items-stretch lg:flex-row">
       <div
-        className="flex flex-1 flex-col items-center justify-center gap-4 bg-size-[450px] p-4 py-16 text-center lg:py-8"
+        className="relative flex flex-1 flex-col items-center justify-center gap-4 bg-size-[450px] p-4 py-16 text-center lg:py-8"
         style={{ backgroundImage: `url(${bgPatternBlue.src})` }}
       >
+        <Link
+          href="/orders"
+          className="absolute top-6 left-6 flex items-center gap-2 text-sm font-bold text-white transition-opacity hover:opacity-80 md:top-10 md:left-10"
+        >
+          <ArrowLeft size={20} /> Back to Orders
+        </Link>
+
         <Image
           src={ramenImage}
           alt="A bowl of ramen"
