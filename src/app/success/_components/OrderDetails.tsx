@@ -1,23 +1,75 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
+import { ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
 import bgPatternBlue from '@/app/_assets/images/bg-pattern-blue.png'
 import ramenImage from '@/app/_assets/images/ramen.png'
 import whiteArrowRight from '@/app/_assets/svg/white-arrow-right.svg'
+import { api } from '@/app/_lib/axios'
 
 interface OrderDetailsProps {
-  orderDescription: string
+  orderId: string
 }
 
-export function OrderDetails({ orderDescription }: OrderDetailsProps) {
+interface OrderResponse {
+  id: string
+  description: string
+}
+
+export function OrderDetails({ orderId }: OrderDetailsProps) {
+  const {
+    data: order,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['order', orderId],
+    queryFn: async () => {
+      const response = await api.get<OrderResponse>(`/orders/${orderId}`)
+
+      return response.data
+    },
+  })
+
+  if (isLoading) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-gray-50">
+        <div className="size-16 animate-spin rounded-full border-8 border-gray-200 border-t-primary" />
+      </main>
+    )
+  }
+
+  if (isError || !order) {
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-gray-50 p-4 text-center">
+        <h2 className="text-2xl font-bold text-red-500">
+          Oops! Order not found.
+        </h2>
+        <Link
+          href="/"
+          className="mt-4 rounded-full bg-primary px-8 py-4 font-bold text-white transition-opacity hover:opacity-90"
+        >
+          BACK TO HOME
+        </Link>
+      </main>
+    )
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-stretch lg:flex-row">
       <div
-        className="flex flex-1 flex-col items-center justify-center gap-4 bg-size-[450px] p-4 py-16 text-center lg:py-8"
+        className="relative flex flex-1 flex-col items-center justify-center gap-4 bg-size-[450px] p-4 py-16 text-center lg:py-8"
         style={{ backgroundImage: `url(${bgPatternBlue.src})` }}
       >
+        <Link
+          href="/orders"
+          className="absolute top-6 left-6 flex items-center gap-2 text-sm font-bold text-white transition-opacity hover:opacity-80 md:top-10 md:left-10"
+        >
+          <ArrowLeft size={20} /> Back to Orders
+        </Link>
+
         <Image
           src={ramenImage}
           alt="A bowl of ramen"
@@ -27,7 +79,7 @@ export function OrderDetails({ orderDescription }: OrderDetailsProps) {
         />
         <span className="mt-4 text-xl font-black text-white">Your Order:</span>
         <strong className="max-w-md text-3xl font-black text-tertiary">
-          {decodeURIComponent(orderDescription)}
+          {order.description}
         </strong>
       </div>
 

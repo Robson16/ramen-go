@@ -34,18 +34,18 @@ Este documento mapeia todas as tarefas necessárias para atualizar a interface w
 
 > _"Como cliente autenticado, quero ver o cardápio e montar meu lámen."_
 
-- [ ] Refatorar as chamadas de `GET /broths` e `GET /proteins` para usarem o token JWT (remover envio de `x-api-key`).
-- [ ] Refatorar o envio do pedido (`POST /orders`) para enviar apenas `brothId` e `proteinId`, já que o back-end agora pega o `userId` pelo token.
-- [ ] Atualizar a página de sucesso para buscar os detalhes do pedido usando `GET /orders/:id` com os dados completos do back-end.
+- [x] Refatorar as chamadas de `GET /broths` e `GET /proteins` para usarem o token JWT (remover envio de `x-api-key`).
+- [x] Refatorar o envio do pedido (`POST /orders`) para enviar apenas `brothId` e `proteinId`, já que o back-end agora pega o `userId` pelo token.
+- [x] Atualizar a página de sucesso para buscar os detalhes do pedido usando `GET /orders/:id` com os dados completos do back-end.
 
 ### User Story 2.2: Histórico de Pedidos e Perfil
 
 > _"Como cliente, quero ver meus pedidos anteriores e gerenciar minha conta."_
 
-- [ ] Criar a página "Meus Pedidos" integrando com `GET /orders/me` (usando React Query para listagem).
-- [ ] Criar a página de "Meu Perfil" integrando com `GET /me`.
-- [ ] Adicionar formulário para edição de perfil (`PUT /me`).
-- [ ] Adicionar botão "Excluir Conta" com modal de confirmação (`DELETE /me`).
+- [x] Criar a página "Meus Pedidos" integrando com `GET /orders` (usando React Query para listagem).
+- [x] Criar a página de "Meu Perfil" integrando com `GET /profile`.
+- [x] Adicionar formulário para edição de perfil (`PUT /profile`).
+- [x] Adicionar botão "Excluir Conta" com modal de confirmação (`DELETE /profile`).
 
 ---
 
