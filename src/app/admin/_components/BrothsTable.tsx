@@ -1,6 +1,6 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Pencil, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -18,6 +18,8 @@ interface Broth {
 }
 
 export function BrothsTable() {
+  const queryClient = useQueryClient()
+
   const {
     data: broths,
     isLoading,
@@ -29,6 +31,25 @@ export function BrothsTable() {
       return response.data.broths
     },
   })
+
+  const { mutate: deleteBroth, isPending: isDeleting } = useMutation({
+    mutationFn: async (id: string) => {
+      await api.delete(`/broths/${id}`)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['broths'] })
+    },
+    onError: (error) => {
+      console.error(error)
+      alert('Error deleting broth. It might be linked to an order.')
+    },
+  })
+
+  const handleDelete = (id: string, name: string) => {
+    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
+      deleteBroth(id)
+    }
+  }
 
   if (isLoading) {
     return (
@@ -98,7 +119,11 @@ export function BrothsTable() {
                   >
                     <Pencil size={20} />
                   </Link>
-                  <button className="text-secondary transition-colors hover:text-secondary/70">
+                  <button
+                    onClick={() => handleDelete(broth.id, broth.name)}
+                    disabled={isDeleting}
+                    className="text-secondary transition-colors hover:text-secondary/70"
+                  >
                     <Trash2 size={20} />
                   </button>
                 </div>
