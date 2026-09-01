@@ -124,14 +124,14 @@ export function Carte() {
           alt={item.name}
           width={120}
           height={120}
-          className="mx-auto block size-auto group-has-checked:hidden"
+          className="mx-auto block size-32 object-contain group-has-checked:hidden"
         />
         <Image
           src={`${env.NEXT_PUBLIC_IMAGES_BASE_URL}/${item.imageActive}`}
           alt={item.name}
           width={120}
           height={120}
-          className="mx-auto hidden size-auto group-has-checked:block"
+          className="mx-auto hidden size-32 object-contain group-has-checked:block"
         />
 
         <span className="mt-2 block font-bold text-primary group-has-checked:text-white">
