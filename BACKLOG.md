@@ -71,7 +71,7 @@ Este documento mapeia todas as tarefas necessárias para atualizar a interface w
 
 > _"Como administrador, quero listar, criar, editar e excluir caldos e proteínas do sistema."_
 
-- [ ] Criar layout base para o Painel Admin (Sidebar, Header, etc).
+- [x] Criar layout base para o Painel Admin (Sidebar, Header, etc).
 - [ ] Criar página de Listagem de Caldos e Proteínas em formato de tabela (CRUD - Read).
 - [ ] Criar modais/páginas com formulários (React Hook Form + Zod) para Criação e Edição de Caldos/Proteínas.
 - [ ] Integrar endpoints administrativos: `POST`, `PUT`, e `DELETE` para caldos e proteínas.
