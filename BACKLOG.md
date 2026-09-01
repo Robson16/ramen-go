@@ -57,9 +57,9 @@ Este documento mapeia todas as tarefas necessárias para atualizar a interface w
 
 > _"Como desenvolvedor, quero proteger as rotas da aplicação garantindo que apenas usuários com as permissões corretas acessem as páginas."_
 
-- [ ] Criar um `middleware.ts` no Next.js (ou HOCs) para redirecionar usuários não autenticados para o `/login`.
-- [ ] Implementar verificação de `Role` (USER vs ADMIN) no front-end.
-- [ ] Criar rota base `/admin` e bloquear acesso de usuários que não possuem a role `ADMIN`.
+- [x] Criar um `middleware.ts` no Next.js (ou HOCs) para redirecionar usuários não autenticados para o `/login`.
+- [x] Implementar verificação de `Role` (USER vs ADMIN) no front-end.
+- [x] Criar rota base `/admin` e bloquear acesso de usuários que não possuem a role `ADMIN`.
 
 ---
 
