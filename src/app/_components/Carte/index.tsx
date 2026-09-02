@@ -24,6 +24,15 @@ interface OrderFormData {
   proteinId: string
 }
 
+interface CreateOrderResponse {
+  order: {
+    id: string
+    description: string
+    status: 'PENDING' | 'PREPARING' | 'READY' | 'DELIVERED'
+    createdAt: string
+  }
+}
+
 export function Carte() {
   const {
     register,
@@ -66,12 +75,12 @@ export function Carte() {
 
   const handleOrderSubmit = async (data: OrderFormData) => {
     try {
-      const response = await api.post<{ id: string }>('/orders', {
+      const response = await api.post<CreateOrderResponse>('/orders', {
         brothId: data.brothId,
         proteinId: data.proteinId,
       })
 
-      const { id } = response.data
+      const { id } = response.data.order
 
       router.push(`/success/${id}`)
     } catch (error) {

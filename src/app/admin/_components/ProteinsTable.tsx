@@ -34,7 +34,7 @@ export function ProteinsTable() {
 
   const { mutate: deleteProtein, isPending: isDeleting } = useMutation({
     mutationFn: async (id: string) => {
-      await api.delete(`/proteins/${id}`)
+      await api.delete(`admin/proteins/${id}`)
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['proteins'] })

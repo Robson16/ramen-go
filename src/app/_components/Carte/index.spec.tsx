@@ -134,7 +134,14 @@ describe('Carte Component', () => {
     })
 
     ;(api.post as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
-      data: { id: 'fake-order-123' },
+      data: {
+        order: {
+          id: 'fake-order-123',
+          description: 'Tonkotsu with Chashu',
+          status: 'PENDING',
+          createdAt: '2026-09-02T00:00:00.000Z',
+        },
+      },
     })
 
     render(<Carte />)

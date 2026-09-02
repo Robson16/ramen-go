@@ -64,7 +64,7 @@ export default function NewBrothPage() {
       const activeImageFormData = new FormData()
       activeImageFormData.append('file', data.imageActive[0])
       const activeRes = await api.post<{ imageId: string }>(
-        '/images',
+        'admin/images',
         activeImageFormData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -75,7 +75,7 @@ export default function NewBrothPage() {
       const inactiveImageFormData = new FormData()
       inactiveImageFormData.append('file', data.imageInactive[0])
       const inactiveRes = await api.post<{ imageId: string }>(
-        '/images',
+        'admin/images',
         inactiveImageFormData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -83,7 +83,7 @@ export default function NewBrothPage() {
       )
       const imageInactiveId = inactiveRes.data.imageId
 
-      await api.post('/broths', {
+      await api.post('admin/broths', {
         name: data.name,
         description: data.description,
         price: data.price,

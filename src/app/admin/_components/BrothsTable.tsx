@@ -34,7 +34,7 @@ export function BrothsTable() {
 
   const { mutate: deleteBroth, isPending: isDeleting } = useMutation({
     mutationFn: async (id: string) => {
-      await api.delete(`/broths/${id}`)
+      await api.delete(`admin/broths/${id}`)
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['broths'] })

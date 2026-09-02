@@ -51,7 +51,7 @@ export default function EditBrothPage() {
   const { data: broth, isLoading: isLoadingBroth } = useQuery({
     queryKey: ['broths'],
     queryFn: async () => {
-      const response = await api.get<{ broths: Broth[] }>('/broths')
+      const response = await api.get<{ broths: Broth[] }>('admin/broths')
       return response.data.broths
     },
     select: (broths) => broths.find((broth) => broth.id === brothId),
@@ -92,7 +92,7 @@ export default function EditBrothPage() {
         const activeFormData = new FormData()
         activeFormData.append('file', data.imageActive[0])
         const res = await api.post<{ imageId: string }>(
-          '/images',
+          'admin/images',
           activeFormData,
           {
             headers: { 'Content-Type': 'multipart/form-data' },
@@ -105,7 +105,7 @@ export default function EditBrothPage() {
         const inactiveFormData = new FormData()
         inactiveFormData.append('file', data.imageInactive[0])
         const res = await api.post<{ imageId: string }>(
-          '/images',
+          'admin/images',
           inactiveFormData,
           {
             headers: { 'Content-Type': 'multipart/form-data' },
@@ -114,7 +114,7 @@ export default function EditBrothPage() {
         updatePayload.imageInactiveId = res.data.imageId
       }
 
-      await api.put(`/broths/${brothId}`, updatePayload)
+      await api.put(`admin/broths/${brothId}`, updatePayload)
     },
     onSuccess: () => {
       alert('Broth updated successfully!')

@@ -51,7 +51,7 @@ export default function EditProteinPage() {
   const { data: protein, isLoading: isLoadingProtein } = useQuery({
     queryKey: ['proteins'],
     queryFn: async () => {
-      const response = await api.get<{ proteins: Protein[] }>('/proteins')
+      const response = await api.get<{ proteins: Protein[] }>('admin/proteins')
       return response.data.proteins
     },
     select: (proteins) => proteins.find((protein) => protein.id === proteinId),
@@ -92,7 +92,7 @@ export default function EditProteinPage() {
         const activeFormData = new FormData()
         activeFormData.append('file', data.imageActive[0])
         const res = await api.post<{ imageId: string }>(
-          '/images',
+          'admin/images',
           activeFormData,
           {
             headers: { 'Content-Type': 'multipart/form-data' },
@@ -105,7 +105,7 @@ export default function EditProteinPage() {
         const inactiveFormData = new FormData()
         inactiveFormData.append('file', data.imageInactive[0])
         const res = await api.post<{ imageId: string }>(
-          '/images',
+          'admin/images',
           inactiveFormData,
           {
             headers: { 'Content-Type': 'multipart/form-data' },
@@ -114,7 +114,7 @@ export default function EditProteinPage() {
         updatePayload.imageInactiveId = res.data.imageId
       }
 
-      await api.put(`/proteins/${proteinId}`, updatePayload)
+      await api.put(`admin/proteins/${proteinId}`, updatePayload)
     },
     onSuccess: () => {
       alert('Protein updated successfully!')

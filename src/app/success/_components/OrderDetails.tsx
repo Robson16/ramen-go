@@ -15,8 +15,12 @@ interface OrderDetailsProps {
 }
 
 interface OrderResponse {
-  id: string
-  description: string
+  order: {
+    id: string
+    description: string
+    status: 'PENDING' | 'PREPARING' | 'READY' | 'DELIVERED'
+    createdAt: string
+  }
 }
 
 export function OrderDetails({ orderId }: OrderDetailsProps) {
@@ -29,7 +33,7 @@ export function OrderDetails({ orderId }: OrderDetailsProps) {
     queryFn: async () => {
       const response = await api.get<OrderResponse>(`/orders/${orderId}`)
 
-      return response.data
+      return response.data.order
     },
   })
 
