@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.4.0](https://github.com/Robson16/ramen-go/compare/v2.3.0...v2.4.0) (2026-09-01)
+
+### Features
+
+* **auth:** implement edge middleware and clean up route guards ([e091d36](https://github.com/Robson16/ramen-go/commit/e091d3620106f11c3e0aa3a5759b9bff92c3eea7))
 ## [2.3.0](https://github.com/Robson16/ramen-go/compare/v2.2.0...v2.3.0) (2026-08-31)
 
 ### Features

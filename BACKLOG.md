@@ -71,25 +71,25 @@ Este documento mapeia todas as tarefas necessárias para atualizar a interface w
 
 > _"Como administrador, quero listar, criar, editar e excluir caldos e proteínas do sistema."_
 
-- [ ] Criar layout base para o Painel Admin (Sidebar, Header, etc).
-- [ ] Criar página de Listagem de Caldos e Proteínas em formato de tabela (CRUD - Read).
-- [ ] Criar modais/páginas com formulários (React Hook Form + Zod) para Criação e Edição de Caldos/Proteínas.
-- [ ] Integrar endpoints administrativos: `POST`, `PUT`, e `DELETE` para caldos e proteínas.
+- [x] Criar layout base para o Painel Admin (Sidebar, Header, etc).
+- [x] Criar página de Listagem de Caldos e Proteínas em formato de tabela (CRUD - Read).
+- [x] Criar modais/páginas com formulários (React Hook Form + Zod) para Criação e Edição de Caldos/Proteínas.
+- [x] Integrar endpoints administrativos: `POST`, `PUT`, e `DELETE` para caldos e proteínas.
 
 ### User Story 4.2: Upload de Imagens
 
 > _"Como administrador, quero fazer upload das artes (SVGs) dos ingredientes diretamente pelo painel."_
 
-- [ ] Criar componente de _Dropzone_ (ou input file) nos formulários de criação/edição de ingredientes.
-- [ ] Integrar com a rota `POST /images` para subir as versões "Ativa" e "Inativa" antes de salvar o ingrediente.
+- [x] Criar componente de _Dropzone_ (ou input file) nos formulários de criação/edição de ingredientes.
+- [x] Integrar com a rota `POST /images` para subir as versões "Ativa" e "Inativa" antes de salvar o ingrediente.
 
 ### User Story 4.3: Gestão de Pedidos (Kanban / Tabela)
 
 > _"Como administrador, quero ver todos os pedidos dos clientes e atualizar o status deles em tempo real."_
 
-- [ ] Criar tela de "Gestão de Pedidos" (Admin) integrando com `GET /orders/all`.
-- [ ] Criar interface (botões ou selects) para alterar o status do pedido (PENDING -> PREPARING -> READY -> DELIVERED).
-- [ ] Integrar ação de mudança de status com `PATCH /orders/:id/status`.
+- [x] Criar tela de "Gestão de Pedidos" (Admin) integrando com `GET /orders/all`.
+- [x] Criar interface (botões ou selects) para alterar o status do pedido (PENDING -> PREPARING -> READY -> DELIVERED).
+- [x] Integrar ação de mudança de status com `PATCH /orders/:id/status`.
 
 ---
 

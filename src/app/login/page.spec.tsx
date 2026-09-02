@@ -8,8 +8,6 @@ import { api } from '@/app/_lib/axios'
 
 import LoginPage from './page'
 
-// 1. Mocks
-
 vi.mock('next/image', () => ({
   default: ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
