@@ -87,9 +87,9 @@ Este documento mapeia todas as tarefas necessárias para atualizar a interface w
 
 > _"Como administrador, quero ver todos os pedidos dos clientes e atualizar o status deles em tempo real."_
 
-- [ ] Criar tela de "Gestão de Pedidos" (Admin) integrando com `GET /orders/all`.
-- [ ] Criar interface (botões ou selects) para alterar o status do pedido (PENDING -> PREPARING -> READY -> DELIVERED).
-- [ ] Integrar ação de mudança de status com `PATCH /orders/:id/status`.
+- [x] Criar tela de "Gestão de Pedidos" (Admin) integrando com `GET /orders/all`.
+- [x] Criar interface (botões ou selects) para alterar o status do pedido (PENDING -> PREPARING -> READY -> DELIVERED).
+- [x] Integrar ação de mudança de status com `PATCH /orders/:id/status`.
 
 ---
 
