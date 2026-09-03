@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.5.0](https://github.com/Robson16/ramen-go/compare/v2.4.0...v2.5.0) (2026-09-03)
+
+### Features
+
+* **admin:** create admin base layout and sidebar ([b5f9804](https://github.com/Robson16/ramen-go/commit/b5f98041885b64491de6bb0cad23f9fefae8e401))
+* **admin:** implement AdminOrdersTable with tests and update status mutation ([ae56af2](https://github.com/Robson16/ramen-go/commit/ae56af27034b4889c57bc7013e537492222a13dc))
+* **admin:** implement broths and proteins list tables ([48a9f6d](https://github.com/Robson16/ramen-go/commit/48a9f6d5b521125bb65e6310349fc4a3c0d394f1))
+* **admin:** implement create forms and tests for broths and proteins ([df2d868](https://github.com/Robson16/ramen-go/commit/df2d868f0ccaea7d617ab1286f6a6dd00be64956))
+* **admin:** implement delete functionality and tests for catalog tables ([7e51373](https://github.com/Robson16/ramen-go/commit/7e51373f68cda959c96e395b7fb7f2984d407354))
+* **admin:** implement edit pages and tests for broths and proteins ([83280e0](https://github.com/Robson16/ramen-go/commit/83280e02e44042a4a73436b8e72a615c08200c19))
+* **core:** implement global 401 interceptor and sonner toasts ([f311ea2](https://github.com/Robson16/ramen-go/commit/f311ea20df9368c91e1bfbd4a5701cd12611e7af))
+* **ux:** implement global error handling and toast notifications ([b0dd2e3](https://github.com/Robson16/ramen-go/commit/b0dd2e3effe685bce9766b07e8649c7df5f07cd1))
 ## [2.4.0](https://github.com/Robson16/ramen-go/compare/v2.3.0...v2.4.0) (2026-09-01)
 
 ### Features
