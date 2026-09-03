@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 import bgPatternRed from '@/app/_assets/images/bg-pattern-red.png'
@@ -32,7 +33,9 @@ export default function ForgotPasswordPage() {
       await api.post('/password/forgot', data)
       setIsSuccess(true)
     } catch (error) {
-      alert('Error sending email. Please check if the address is correct.')
+      toast.error(
+        'Error sending email. Please check if the address is correct.',
+      )
       console.error(error)
     }
   }

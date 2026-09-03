@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Pencil, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { toast } from 'sonner'
 
 import { api } from '@/app/_lib/axios'
 import { env } from '@/app/env'
@@ -41,7 +42,7 @@ export function ProteinsTable() {
     },
     onError: (error) => {
       console.error(error)
-      alert('Error deleting protein. It might be linked to an order.')
+      toast.error('Error deleting protein. It might be linked to an order.')
     },
   })
 
@@ -54,14 +55,14 @@ export function ProteinsTable() {
   if (isLoading) {
     return (
       <div className="flex justify-center py-10">
-        <div className="size-10 animate-spin rounded-full border-4 border-gray-200 border-t-primary" />
+        <div className="border-t-primary size-10 animate-spin rounded-full border-4 border-gray-200" />
       </div>
     )
   }
 
   if (isError || !proteins) {
     return (
-      <div className="py-10 text-center text-secondary">
+      <div className="text-secondary py-10 text-center">
         Could not load proteins. Please try again.
       </div>
     )
@@ -69,8 +70,8 @@ export function ProteinsTable() {
 
   return (
     <div className="overflow-x-auto rounded-xl border border-gray-200">
-      <table className="w-full text-left text-sm text-foreground">
-        <thead className="bg-background text-xs text-foreground/70 uppercase">
+      <table className="text-foreground w-full text-left text-sm">
+        <thead className="bg-background text-foreground/70 text-xs uppercase">
           <tr>
             <th className="px-6 py-4">Image</th>
             <th className="px-6 py-4">Name</th>
@@ -83,10 +84,10 @@ export function ProteinsTable() {
           {proteins.map((protein) => (
             <tr
               key={protein.id}
-              className="group border-b border-gray-200 transition-colors last:border-0 hover:bg-background/50"
+              className="group hover:bg-background/50 border-b border-gray-200 transition-colors last:border-0"
             >
               <td className="px-6 py-4">
-                <div className="relative flex size-16 items-center justify-center rounded-full bg-transparent shadow-sm transition-colors group-hover:bg-primary">
+                <div className="group-hover:bg-primary relative flex size-16 items-center justify-center rounded-full bg-transparent shadow-sm transition-colors">
                   <Image
                     src={`${env.NEXT_PUBLIC_IMAGES_BASE_URL}/${protein.imageInactive}`}
                     alt={protein.name}
@@ -105,24 +106,24 @@ export function ProteinsTable() {
                 </div>
               </td>
               <td className="px-6 py-4 font-bold">{protein.name}</td>
-              <td className="px-6 py-4 text-foreground/70">
+              <td className="text-foreground/70 px-6 py-4">
                 {protein.description}
               </td>
-              <td className="px-6 py-4 font-bold text-secondary">
+              <td className="text-secondary px-6 py-4 font-bold">
                 US$ {protein.price}
               </td>
               <td className="px-6 py-4 text-right">
                 <div className="flex justify-end gap-3">
                   <Link
                     href={`/admin/proteins/${protein.id}/edit`}
-                    className="text-primary transition-colors hover:text-primary/70"
+                    className="text-primary hover:text-primary/70 transition-colors"
                   >
                     <Pencil size={20} />
                   </Link>
                   <button
                     onClick={() => handleDelete(protein.id, protein.name)}
                     disabled={isDeleting}
-                    className="text-secondary transition-colors hover:text-secondary/70"
+                    className="text-secondary hover:text-secondary/70 transition-colors"
                   >
                     <Trash2 size={20} />
                   </button>
@@ -134,7 +135,7 @@ export function ProteinsTable() {
             <tr>
               <td
                 colSpan={5}
-                className="px-6 py-8 text-center text-foreground/70"
+                className="text-foreground/70 px-6 py-8 text-center"
               >
                 No proteins found.
               </td>

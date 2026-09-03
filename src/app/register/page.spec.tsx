@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { api } from '@/app/_lib/axios'
@@ -30,7 +31,12 @@ vi.mock('@/app/_lib/axios', () => ({
   },
 }))
 
-const mockAlert = vi.spyOn(window, 'alert').mockImplementation(() => {})
+vi.mock('sonner', () => ({
+  toast: {
+    error: vi.fn(),
+    success: vi.fn(),
+  },
+}))
 
 describe('RegisterPage', () => {
   const mockPush = vi.fn()
@@ -94,7 +100,7 @@ describe('RegisterPage', () => {
     })
   })
 
-  it('should call api, alert, and redirect on successful registration', async () => {
+  it('should call api, show a success toast, and redirect on successful registration', async () => {
     const user = userEvent.setup()
 
     ;(api.post as ReturnType<typeof vi.fn>).mockResolvedValueOnce({})
@@ -117,7 +123,7 @@ describe('RegisterPage', () => {
         password: 'password123',
       })
 
-      expect(mockAlert).toHaveBeenCalledWith(
+      expect(toast.success).toHaveBeenCalledWith(
         'Registration successful! Please log in.',
       )
       expect(mockPush).toHaveBeenCalledWith('/login')

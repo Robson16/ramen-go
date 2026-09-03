@@ -101,10 +101,10 @@ Este documento mapeia todas as tarefas necessárias para atualizar a interface w
 
 > _"Como usuário, quero saber imediatamente se digitei uma senha errada ou se tentei acessar algo que não devo."_
 
-- [ ] Criar sistema global de Toasts/Snackbars (instalar `sonner` ou `react-hot-toast`).
-- [ ] **Substituir todos os `alert()` temporários** (das telas de Login, Register e Forgot Password) por chamadas de Toast de sucesso/erro.
-- [ ] Tratar erro `401 Unauthorized` globalmente no Axios (deslogar o usuário e redirecionar para `/login` se o token expirar).
-- [ ] Tratar erros `409 Conflict` (ex: "Caldo já existente" ou "Pedido já entregue") com mensagens amigáveis na UI.
+- [x] Criar sistema global de Toasts/Snackbars (instalar `sonner` ou `react-hot-toast`).
+- [x] **Substituir todos os `alert()` temporários** (das telas de Login, Register e Forgot Password) por chamadas de Toast de sucesso/erro.
+- [x] Tratar erro `401 Unauthorized` globalmente no Axios (deslogar o usuário e redirecionar para `/login` se o token expirar).
+- [x] Tratar erros `409 Conflict` (ex: "Caldo já existente" ou "Pedido já entregue") com mensagens amigáveis na UI.
 
 ---
 

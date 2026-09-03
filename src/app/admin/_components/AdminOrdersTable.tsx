@@ -1,6 +1,7 @@
 'use client'
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { isAxiosError } from 'axios'
 import {
   CheckCircle,
   ChefHat,
@@ -9,6 +10,7 @@ import {
   PackageCheck,
   Soup,
 } from 'lucide-react'
+import { toast } from 'sonner'
 
 import { api } from '@/app/_lib/axios'
 
@@ -73,8 +75,15 @@ export function AdminOrdersTable() {
       queryClient.invalidateQueries({ queryKey: ['admin-orders'] })
     },
     onError: (error) => {
+      if (isAxiosError(error) && error.response?.status === 409) {
+        toast.error(
+          'This order has already been delivered and cannot be changed.',
+        )
+        return
+      }
+
+      toast.error('Failed to update order status.')
       console.error(error)
-      alert('Failed to update order status.')
     },
   })
 

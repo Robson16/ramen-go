@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { setCookie } from 'nookies'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 import bgPatternRed from '@/app/_assets/images/bg-pattern-red.png'
@@ -55,8 +56,7 @@ export default function LoginPage() {
 
       router.push('/')
     } catch (error) {
-      // TODO: Improve to a Toast
-      alert('Invalid credentials. Please try again.')
+      toast.error('Invalid credentials. Please try again.')
       console.error(error)
     }
   }

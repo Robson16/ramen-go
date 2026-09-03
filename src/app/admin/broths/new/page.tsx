@@ -2,10 +2,12 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { isAxiosError } from 'axios'
 import { ArrowLeft, CheckCircle2, Upload } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useForm, useWatch } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { api } from '@/app/_lib/axios'
@@ -92,13 +94,21 @@ export default function NewBrothPage() {
       })
     },
     onSuccess: () => {
-      alert('Broth created successfully!')
+      toast.success('Broth created successfully!')
       queryClient.invalidateQueries({ queryKey: ['broths'] })
       router.push('/admin/broths')
     },
     onError: (error) => {
+      if (isAxiosError(error) && error.response?.status === 409) {
+        toast.error(
+          error.response?.data?.message ||
+            'An item with this name already exists.',
+        )
+        return
+      }
+
       console.error(error)
-      alert('Error creating broth. Please try again.')
+      toast.error('Error creating broth. Please try again.')
     },
   })
 
@@ -107,11 +117,11 @@ export default function NewBrothPage() {
       <div className="mb-8 flex items-center gap-4">
         <Link
           href="/admin/broths"
-          className="flex size-10 items-center justify-center rounded-full bg-background transition-colors hover:bg-gray-100"
+          className="bg-background flex size-10 items-center justify-center rounded-full transition-colors hover:bg-gray-100"
         >
           <ArrowLeft size={20} className="text-foreground/70" />
         </Link>
-        <h1 className="text-2xl font-black text-foreground">New Broth</h1>
+        <h1 className="text-foreground text-2xl font-black">New Broth</h1>
       </div>
 
       <form
@@ -124,7 +134,7 @@ export default function NewBrothPage() {
           <div>
             <label
               htmlFor="imageActive"
-              className="mb-2 block text-sm font-bold text-foreground"
+              className="text-foreground mb-2 block text-sm font-bold"
             >
               Active SVG Image
             </label>
@@ -132,7 +142,7 @@ export default function NewBrothPage() {
               className={`relative flex w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed py-10 transition-colors ${
                 activeImageFile && activeImageFile.length > 0
                   ? 'border-green-500 bg-green-50'
-                  : 'border-gray-300 bg-background hover:border-primary'
+                  : 'bg-background hover:border-primary border-gray-300'
               }`}
             >
               {activeImageFile && activeImageFile.length > 0 ? (
@@ -144,8 +154,8 @@ export default function NewBrothPage() {
                 </>
               ) : (
                 <>
-                  <Upload className="mb-2 text-primary" size={24} />
-                  <span className="text-xs text-foreground/70">
+                  <Upload className="text-primary mb-2" size={24} />
+                  <span className="text-foreground/70 text-xs">
                     Click to upload SVG
                   </span>
                 </>
@@ -161,7 +171,7 @@ export default function NewBrothPage() {
               />
             </div>
             {errors.imageActive && (
-              <span className="mt-1 block text-sm text-secondary">
+              <span className="text-secondary mt-1 block text-sm">
                 {errors.imageActive.message as string}
               </span>
             )}
@@ -170,7 +180,7 @@ export default function NewBrothPage() {
           <div>
             <label
               htmlFor="imageInactive"
-              className="mb-2 block text-sm font-bold text-foreground"
+              className="text-foreground mb-2 block text-sm font-bold"
             >
               Inactive SVG Image
             </label>
@@ -178,7 +188,7 @@ export default function NewBrothPage() {
               className={`relative flex w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed py-10 transition-colors ${
                 inactiveImageFile && inactiveImageFile.length > 0
                   ? 'border-green-500 bg-green-50'
-                  : 'border-gray-300 bg-background hover:border-primary'
+                  : 'bg-background hover:border-primary border-gray-300'
               }`}
             >
               {inactiveImageFile && inactiveImageFile.length > 0 ? (
@@ -190,8 +200,8 @@ export default function NewBrothPage() {
                 </>
               ) : (
                 <>
-                  <Upload className="mb-2 text-primary" size={24} />
-                  <span className="text-xs text-foreground/70">
+                  <Upload className="text-primary mb-2" size={24} />
+                  <span className="text-foreground/70 text-xs">
                     Click to upload SVG
                   </span>
                 </>
@@ -207,7 +217,7 @@ export default function NewBrothPage() {
               />
             </div>
             {errors.imageInactive && (
-              <span className="mt-1 block text-sm text-secondary">
+              <span className="text-secondary mt-1 block text-sm">
                 {errors.imageInactive.message as string}
               </span>
             )}
@@ -217,7 +227,7 @@ export default function NewBrothPage() {
         <div>
           <label
             htmlFor="name"
-            className="mb-1 block text-sm font-bold text-foreground"
+            className="text-foreground mb-1 block text-sm font-bold"
           >
             Name
           </label>
@@ -225,12 +235,12 @@ export default function NewBrothPage() {
             id="name"
             type="text"
             placeholder="Miso Broth"
-            className="w-full rounded-lg border border-gray-300 p-3 outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+            className="focus:border-primary focus:ring-primary w-full rounded-lg border border-gray-300 p-3 outline-none focus:ring-1"
             disabled={isSubmitting}
             {...register('name')}
           />
           {errors.name && (
-            <span className="mt-1 block text-sm text-secondary">
+            <span className="text-secondary mt-1 block text-sm">
               {errors.name.message}
             </span>
           )}
@@ -239,7 +249,7 @@ export default function NewBrothPage() {
         <div>
           <label
             htmlFor="description"
-            className="mb-1 block text-sm font-bold text-foreground"
+            className="text-foreground mb-1 block text-sm font-bold"
           >
             Description
           </label>
@@ -247,12 +257,12 @@ export default function NewBrothPage() {
             id="description"
             rows={3}
             placeholder="Rich and savory miso-flavored broth."
-            className="w-full resize-none rounded-lg border border-gray-300 p-3 outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+            className="focus:border-primary focus:ring-primary w-full resize-none rounded-lg border border-gray-300 p-3 outline-none focus:ring-1"
             disabled={isSubmitting}
             {...register('description')}
           />
           {errors.description && (
-            <span className="mt-1 block text-sm text-secondary">
+            <span className="text-secondary mt-1 block text-sm">
               {errors.description.message}
             </span>
           )}
@@ -261,7 +271,7 @@ export default function NewBrothPage() {
         <div>
           <label
             htmlFor="price"
-            className="mb-1 block text-sm font-bold text-foreground"
+            className="text-foreground mb-1 block text-sm font-bold"
           >
             Price (US$)
           </label>
@@ -270,12 +280,12 @@ export default function NewBrothPage() {
             type="number"
             step="0.01"
             placeholder="12"
-            className="w-full rounded-lg border border-gray-300 p-3 outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+            className="focus:border-primary focus:ring-primary w-full rounded-lg border border-gray-300 p-3 outline-none focus:ring-1"
             disabled={isSubmitting}
             {...register('price', { valueAsNumber: true })}
           />
           {errors.price && (
-            <span className="mt-1 block text-sm text-secondary">
+            <span className="text-secondary mt-1 block text-sm">
               {errors.price.message}
             </span>
           )}
@@ -284,7 +294,7 @@ export default function NewBrothPage() {
         <button
           type="submit"
           disabled={isPending}
-          className="mt-4 flex w-full justify-center rounded-lg bg-primary p-4 font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+          className="bg-primary mt-4 flex w-full justify-center rounded-lg p-4 font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           {isPending ? (
             <div className="size-6 animate-spin rounded-full border-2 border-white border-t-transparent" />

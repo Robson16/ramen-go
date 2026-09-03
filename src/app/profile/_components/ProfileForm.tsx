@@ -3,6 +3,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { destroyCookie } from 'nookies'
+import { toast } from 'sonner'
 
 import { api } from '@/app/_lib/axios'
 import { useAuthStore } from '@/app/_store/auth'
@@ -46,10 +47,10 @@ export function ProfileForm() {
 
       updateUser(newName)
 
-      alert('Profile updated successfully!')
+      toast.success('Profile updated successfully!')
     },
     onError: () => {
-      alert('Failed to update profile. Please try again.')
+      toast.error('Failed to update profile. Please try again.')
     },
   })
 
@@ -65,7 +66,7 @@ export function ProfileForm() {
       router.push('/login')
     },
     onError: () => {
-      alert('Failed to delete account. Please try again.')
+      toast.error('Failed to delete account. Please try again.')
     },
   })
 
@@ -93,7 +94,7 @@ export function ProfileForm() {
   if (isLoading) {
     return (
       <div className="flex justify-center py-10">
-        <div className="size-16 animate-spin rounded-full border-8 border-gray-200 border-t-primary" />
+        <div className="border-t-primary size-16 animate-spin rounded-full border-8 border-gray-200" />
       </div>
     )
   }
@@ -121,7 +122,7 @@ export function ProfileForm() {
             type="text"
             defaultValue={profile.name}
             required
-            className="w-full rounded-md border border-gray-300 p-3 outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+            className="focus:border-primary focus:ring-primary w-full rounded-md border border-gray-300 p-3 outline-none focus:ring-1"
           />
         </div>
 
@@ -141,7 +142,7 @@ export function ProfileForm() {
         <button
           type="submit"
           disabled={updateProfile.isPending}
-          className="mt-4 rounded-full bg-primary px-8 py-4 font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+          className="bg-primary mt-4 rounded-full px-8 py-4 font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           {updateProfile.isPending ? 'SAVING...' : 'SAVE CHANGES'}
         </button>

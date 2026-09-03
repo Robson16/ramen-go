@@ -5,6 +5,7 @@ import { Eye, EyeOff } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 import bgPatternRed from '@/app/_assets/images/bg-pattern-red.png'
@@ -40,7 +41,7 @@ function ResetPasswordForm() {
 
   async function handleResetPassword(data: ResetPasswordInputs) {
     if (!token) {
-      alert('Invalid or missing recovery token.')
+      toast.error('Invalid or missing recovery token.')
       return
     }
 
@@ -50,12 +51,12 @@ function ResetPasswordForm() {
         password: data.password,
       })
 
-      alert(
+      toast.success(
         'Password successfully reset! Please log in with your new password.',
       )
       router.push('/login')
     } catch (error) {
-      alert('Error resetting password. The link may have expired.')
+      toast.error('Error resetting password. The link may have expired.')
       console.error(error)
     }
   }

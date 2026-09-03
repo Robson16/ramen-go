@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { api } from '@/app/_lib/axios'
@@ -117,27 +118,27 @@ export default function EditProteinPage() {
       await api.put(`admin/proteins/${proteinId}`, updatePayload)
     },
     onSuccess: () => {
-      alert('Protein updated successfully!')
+      toast.success('Protein updated successfully!')
       queryClient.invalidateQueries({ queryKey: ['proteins'] })
       router.push('/admin/proteins')
     },
     onError: (error) => {
       console.error(error)
-      alert('Error updating protein. Please try again.')
+      toast.error('Error updating protein. Please try again.')
     },
   })
 
   if (isLoadingProtein) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <div className="size-10 animate-spin rounded-full border-4 border-gray-200 border-t-primary" />
+        <div className="border-t-primary size-10 animate-spin rounded-full border-4 border-gray-200" />
       </div>
     )
   }
 
   if (!protein) {
     return (
-      <div className="py-10 text-center text-secondary">Protein not found.</div>
+      <div className="text-secondary py-10 text-center">Protein not found.</div>
     )
   }
 
@@ -146,11 +147,11 @@ export default function EditProteinPage() {
       <div className="mb-8 flex items-center gap-4">
         <Link
           href="/admin/proteins"
-          className="flex size-10 items-center justify-center rounded-full bg-background transition-colors hover:bg-gray-100"
+          className="bg-background flex size-10 items-center justify-center rounded-full transition-colors hover:bg-gray-100"
         >
           <ArrowLeft size={20} className="text-foreground/70" />
         </Link>
-        <h1 className="text-2xl font-black text-foreground">Edit Protein</h1>
+        <h1 className="text-foreground text-2xl font-black">Edit Protein</h1>
       </div>
 
       <form
@@ -161,7 +162,7 @@ export default function EditProteinPage() {
           <div>
             <label
               htmlFor="imageActive"
-              className="mb-2 block text-sm font-bold text-foreground"
+              className="text-foreground mb-2 block text-sm font-bold"
             >
               New Active SVG (Optional)
             </label>
@@ -169,7 +170,7 @@ export default function EditProteinPage() {
               className={`relative flex w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed py-10 transition-colors ${
                 activeImageFile && activeImageFile.length > 0
                   ? 'border-green-500 bg-green-50'
-                  : 'border-gray-300 bg-background hover:border-primary'
+                  : 'bg-background hover:border-primary border-gray-300'
               }`}
             >
               {activeImageFile && activeImageFile.length > 0 ? (
@@ -181,8 +182,8 @@ export default function EditProteinPage() {
                 </>
               ) : (
                 <>
-                  <Upload className="mb-2 text-primary" size={24} />
-                  <span className="text-xs text-foreground/70">
+                  <Upload className="text-primary mb-2" size={24} />
+                  <span className="text-foreground/70 text-xs">
                     Keep current or upload new
                   </span>
                 </>
@@ -201,7 +202,7 @@ export default function EditProteinPage() {
           <div>
             <label
               htmlFor="imageInactive"
-              className="mb-2 block text-sm font-bold text-foreground"
+              className="text-foreground mb-2 block text-sm font-bold"
             >
               New Inactive SVG (Optional)
             </label>
@@ -209,7 +210,7 @@ export default function EditProteinPage() {
               className={`relative flex w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed py-10 transition-colors ${
                 inactiveImageFile && inactiveImageFile.length > 0
                   ? 'border-green-500 bg-green-50'
-                  : 'border-gray-300 bg-background hover:border-primary'
+                  : 'bg-background hover:border-primary border-gray-300'
               }`}
             >
               {inactiveImageFile && inactiveImageFile.length > 0 ? (
@@ -221,8 +222,8 @@ export default function EditProteinPage() {
                 </>
               ) : (
                 <>
-                  <Upload className="mb-2 text-primary" size={24} />
-                  <span className="text-xs text-foreground/70">
+                  <Upload className="text-primary mb-2" size={24} />
+                  <span className="text-foreground/70 text-xs">
                     Keep current or upload new
                   </span>
                 </>
@@ -242,19 +243,19 @@ export default function EditProteinPage() {
         <div>
           <label
             htmlFor="name"
-            className="mb-1 block text-sm font-bold text-foreground"
+            className="text-foreground mb-1 block text-sm font-bold"
           >
             Name
           </label>
           <input
             id="name"
             type="text"
-            className="w-full rounded-lg border border-gray-300 p-3 outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+            className="focus:border-primary focus:ring-primary w-full rounded-lg border border-gray-300 p-3 outline-none focus:ring-1"
             disabled={isSubmitting}
             {...register('name')}
           />
           {errors.name && (
-            <span className="mt-1 block text-sm text-secondary">
+            <span className="text-secondary mt-1 block text-sm">
               {errors.name.message}
             </span>
           )}
@@ -263,19 +264,19 @@ export default function EditProteinPage() {
         <div>
           <label
             htmlFor="description"
-            className="mb-1 block text-sm font-bold text-foreground"
+            className="text-foreground mb-1 block text-sm font-bold"
           >
             Description
           </label>
           <textarea
             id="description"
             rows={3}
-            className="w-full resize-none rounded-lg border border-gray-300 p-3 outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+            className="focus:border-primary focus:ring-primary w-full resize-none rounded-lg border border-gray-300 p-3 outline-none focus:ring-1"
             disabled={isSubmitting}
             {...register('description')}
           />
           {errors.description && (
-            <span className="mt-1 block text-sm text-secondary">
+            <span className="text-secondary mt-1 block text-sm">
               {errors.description.message}
             </span>
           )}
@@ -284,7 +285,7 @@ export default function EditProteinPage() {
         <div>
           <label
             htmlFor="price"
-            className="mb-1 block text-sm font-bold text-foreground"
+            className="text-foreground mb-1 block text-sm font-bold"
           >
             Price (US$)
           </label>
@@ -292,12 +293,12 @@ export default function EditProteinPage() {
             id="price"
             type="number"
             step="0.01"
-            className="w-full rounded-lg border border-gray-300 p-3 outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+            className="focus:border-primary focus:ring-primary w-full rounded-lg border border-gray-300 p-3 outline-none focus:ring-1"
             disabled={isSubmitting}
             {...register('price', { valueAsNumber: true })}
           />
           {errors.price && (
-            <span className="mt-1 block text-sm text-secondary">
+            <span className="text-secondary mt-1 block text-sm">
               {errors.price.message}
             </span>
           )}
@@ -306,7 +307,7 @@ export default function EditProteinPage() {
         <button
           type="submit"
           disabled={isPending}
-          className="mt-4 flex w-full justify-center rounded-lg bg-primary p-4 font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+          className="bg-primary mt-4 flex w-full justify-center rounded-lg p-4 font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           {isPending ? (
             <div className="size-6 animate-spin rounded-full border-2 border-white border-t-transparent" />
