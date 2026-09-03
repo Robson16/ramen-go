@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { toast } from 'sonner'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { api } from '@/app/_lib/axios'
@@ -31,7 +32,12 @@ vi.mock('@/app/_lib/axios', () => ({
   },
 }))
 
-const mockAlert = vi.spyOn(window, 'alert').mockImplementation(() => {})
+vi.mock('sonner', () => ({
+  toast: {
+    error: vi.fn(),
+    success: vi.fn(),
+  },
+}))
 
 describe('ResetPasswordPage', () => {
   const mockPush = vi.fn()
@@ -91,12 +97,11 @@ describe('ResetPasswordPage', () => {
     })
   })
 
-  it('should call api, alert, and redirect on successful password reset', async () => {
+  it('should call api, show a success toast, and redirect on successful password reset', async () => {
     mockGet.mockReturnValue('fake-token-123')
 
     const user = userEvent.setup()
 
-    // Simula sucesso na API
     ;(api.patch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({})
 
     render(<ResetPasswordPage />)
@@ -113,14 +118,14 @@ describe('ResetPasswordPage', () => {
         password: 'newpassword123',
       })
 
-      expect(mockAlert).toHaveBeenCalledWith(
+      expect(toast.success).toHaveBeenCalledWith(
         'Password successfully reset! Please log in with your new password.',
       )
       expect(mockPush).toHaveBeenCalledWith('/login')
     })
   })
 
-  it('should alert on api error (e.g., token expired)', async () => {
+  it('should show an error toast on api error (e.g., token expired)', async () => {
     mockGet.mockReturnValue('fake-token-expired')
 
     const user = userEvent.setup()
@@ -142,7 +147,7 @@ describe('ResetPasswordPage', () => {
     await user.click(screen.getByRole('button', { name: /reset password/i }))
 
     await waitFor(() => {
-      expect(mockAlert).toHaveBeenCalledWith(
+      expect(toast.error).toHaveBeenCalledWith(
         'Error resetting password. The link may have expired.',
       )
     })

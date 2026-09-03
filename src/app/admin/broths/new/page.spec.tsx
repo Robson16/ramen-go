@@ -1,12 +1,15 @@
+import { AxiosError } from 'axios'
 import { useMutation } from '@tanstack/react-query'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { toast } from 'sonner'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import NewBrothPage from './page'
 
 const mutateMock = vi.fn()
 const mockedUseMutation = vi.mocked(useMutation)
+let mutationOptions: { onError?: (error: unknown) => void }
 
 vi.mock('next/navigation', () => ({
   useRouter: vi.fn(() => ({
@@ -21,13 +24,31 @@ vi.mock('@tanstack/react-query', () => ({
   })),
 }))
 
+vi.mock('sonner', () => ({
+  toast: {
+    error: vi.fn(),
+    success: vi.fn(),
+  },
+}))
+
+function createConflictError(message?: string) {
+  const error = AxiosError.from(new Error('Conflict'))
+  Object.defineProperty(error, 'response', {
+    value: { status: 409, data: message ? { message } : undefined },
+  })
+  return error
+}
+
 describe('NewBrothPage', () => {
   beforeEach(() => {
     mutateMock.mockClear()
-    mockedUseMutation.mockReturnValue({
-      mutateAsync: mutateMock,
-      isPending: false,
-    } as unknown as ReturnType<typeof useMutation>)
+    mockedUseMutation.mockImplementation((options) => {
+      mutationOptions = options as typeof mutationOptions
+      return {
+        mutateAsync: mutateMock,
+        isPending: false,
+      } as unknown as ReturnType<typeof useMutation>
+    })
   })
 
   it('should render the broth form and submits valid data', async () => {
@@ -90,5 +111,13 @@ describe('NewBrothPage', () => {
 
       expect(mutateMock).not.toHaveBeenCalled()
     })
+  })
+
+  it('should show the API message when the broth already exists', () => {
+    render(<NewBrothPage />)
+
+    mutationOptions.onError?.(createConflictError('Broth already exists.'))
+
+    expect(toast.error).toHaveBeenCalledWith('Broth already exists.')
   })
 })

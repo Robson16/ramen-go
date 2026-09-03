@@ -5,6 +5,7 @@ import { AxiosError } from 'axios'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 import whiteArrowRight from '@/app/_assets/svg/white-arrow-right.svg'
 import { api } from '@/app/_lib/axios'
@@ -85,11 +86,11 @@ export function Carte() {
       router.push(`/success/${id}`)
     } catch (error) {
       if (error instanceof AxiosError && error?.response?.data?.message) {
-        // TODO: Usar um toast para exibir erro
-        alert(error.response.data.message)
+        toast.error(error.response.data.message)
         return
       }
 
+      toast.error('Could not place order. Please try again.')
       console.error(error)
     }
   }
@@ -97,7 +98,7 @@ export function Carte() {
   if (isLoading) {
     return (
       <section className="flex h-64 items-center justify-center">
-        <div className="size-16 animate-spin rounded-full border-8 border-gray-200 border-t-primary" />
+        <div className="border-t-primary size-16 animate-spin rounded-full border-8 border-gray-200" />
       </section>
     )
   }
@@ -119,7 +120,7 @@ export function Carte() {
     items.map((item) => (
       <label
         key={item.id}
-        className="group relative cursor-pointer rounded-lg bg-white p-4 text-center shadow-md transition-all hover:shadow-lg has-checked:bg-primary has-checked:shadow-lg"
+        className="group has-checked:bg-primary relative cursor-pointer rounded-lg bg-white p-4 text-center shadow-md transition-all hover:shadow-lg has-checked:shadow-lg"
       >
         <input
           type="radio"
@@ -143,13 +144,13 @@ export function Carte() {
           className="mx-auto hidden size-32 object-contain group-has-checked:block"
         />
 
-        <span className="mt-2 block font-bold text-primary group-has-checked:text-white">
+        <span className="text-primary mt-2 block font-bold group-has-checked:text-white">
           {item.name}
         </span>
         <p className="text-sm group-has-checked:text-white">
           {item.description}
         </p>
-        <span className="mt-1 block font-semibold text-secondary group-has-checked:text-tertiary">
+        <span className="text-secondary group-has-checked:text-tertiary mt-1 block font-semibold">
           US$ {item.price}
         </span>
       </label>
@@ -157,13 +158,13 @@ export function Carte() {
 
   return (
     <section id="carte" className="bg-white py-16">
-      <div className="mx-auto w-full max-w-content px-4">
+      <div className="max-w-content mx-auto w-full px-4">
         <form onSubmit={handleSubmit(handleOrderSubmit)}>
           <div className="text-center">
-            <p className="text-2xl font-bold text-foreground">
+            <p className="text-foreground text-2xl font-bold">
               First things first: select your favorite broth.
             </p>
-            <p className="mt-1 text-foreground">
+            <p className="text-foreground mt-1">
               It will give the whole flavor on your ramen soup.
             </p>
           </div>
@@ -172,10 +173,10 @@ export function Carte() {
           </div>
 
           <div className="mt-16 text-center">
-            <p className="text-2xl font-bold text-foreground">
+            <p className="text-foreground text-2xl font-bold">
               It’s time to choose (or not) your meat!
             </p>
-            <p className="mt-1 text-foreground">
+            <p className="text-foreground mt-1">
               Some people love, some don’t. We have options for all tastes.
             </p>
           </div>
@@ -186,7 +187,7 @@ export function Carte() {
           <div className="mt-16 text-center">
             <button
               type="submit"
-              className="inline-flex cursor-pointer items-center gap-4 rounded-full bg-secondary px-8 py-4 font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+              className="bg-secondary inline-flex cursor-pointer items-center gap-4 rounded-full px-8 py-4 font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
               disabled={!isValid || isSubmitting}
             >
               {isSubmitting ? 'PLACING ORDER...' : 'PLACE MY ORDER'}

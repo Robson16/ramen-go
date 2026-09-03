@@ -35,10 +35,8 @@ describe('ProfileForm Component', () => {
   beforeEach(() => {
     vi.resetAllMocks()
 
-    vi.spyOn(window, 'alert').mockImplementation(() => {})
     vi.spyOn(window, 'confirm').mockImplementation(() => true)
 
-    // Extraímos o tipo exato do store automaticamente (sem precisar exportar a interface de lá)
     type AuthState = ReturnType<typeof useAuthStore.getState>
 
     mockedUseAuthStore.mockImplementation(

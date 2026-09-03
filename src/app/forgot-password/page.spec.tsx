@@ -1,5 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { toast } from 'sonner'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { api } from '@/app/_lib/axios'
@@ -29,7 +30,12 @@ vi.mock('@/app/_lib/axios', () => ({
   },
 }))
 
-const mockAlert = vi.spyOn(window, 'alert').mockImplementation(() => {})
+vi.mock('sonner', () => ({
+  toast: {
+    error: vi.fn(),
+    success: vi.fn(),
+  },
+}))
 
 describe('ForgotPasswordPage', () => {
   beforeEach(() => {
@@ -100,7 +106,7 @@ describe('ForgotPasswordPage', () => {
     })
   })
 
-  it('should alert on api error', async () => {
+  it('should show an error toast on api error', async () => {
     const user = userEvent.setup()
 
     ;(api.post as ReturnType<typeof vi.fn>).mockRejectedValueOnce(
@@ -122,7 +128,7 @@ describe('ForgotPasswordPage', () => {
     )
 
     await waitFor(() => {
-      expect(mockAlert).toHaveBeenCalledWith(
+      expect(toast.error).toHaveBeenCalledWith(
         'Error sending email. Please check if the address is correct.',
       )
     })

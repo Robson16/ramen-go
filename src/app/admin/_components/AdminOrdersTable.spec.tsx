@@ -1,5 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { AxiosError } from 'axios'
+import { toast } from 'sonner'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { api } from '@/app/_lib/axios'
@@ -13,11 +15,26 @@ vi.mock('@/app/_lib/axios', () => ({
   },
 }))
 
+vi.mock('sonner', () => ({
+  toast: {
+    error: vi.fn(),
+    success: vi.fn(),
+  },
+}))
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: { retry: false },
   },
 })
+
+function createConflictError() {
+  const error = AxiosError.from(new Error('Conflict'))
+  Object.defineProperty(error, 'response', {
+    value: { status: 409 },
+  })
+  return error
+}
 
 describe('AdminOrdersTable Component', () => {
   beforeEach(() => {
@@ -148,6 +165,47 @@ describe('AdminOrdersTable Component', () => {
         {
           status: 'PREPARING',
         },
+      )
+    })
+  })
+
+  it('should show a specific toast when updating a delivered order', async () => {
+    ;(api.get as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+      data: {
+        orders: [
+          {
+            id: 'delivered-order',
+            status: 'PENDING',
+            createdAt: '2026-09-02T12:00:00.000Z',
+            broth: { name: 'Shoyu' },
+            protein: { name: 'Tofu' },
+            user: { name: 'Customer B' },
+          },
+        ],
+      },
+    })
+
+    ;(api.patch as ReturnType<typeof vi.fn>).mockRejectedValueOnce(
+      createConflictError(),
+    )
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <AdminOrdersTable />
+      </QueryClientProvider>,
+    )
+
+    await waitFor(() => {
+      expect(screen.getByText('Customer B')).toBeInTheDocument()
+    })
+
+    fireEvent.change(screen.getByRole('combobox'), {
+      target: { value: 'DELIVERED' },
+    })
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith(
+        'This order has already been delivered and cannot be changed.',
       )
     })
   })

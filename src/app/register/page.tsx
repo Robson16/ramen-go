@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 import bgPatternRed from '@/app/_assets/images/bg-pattern-red.png'
@@ -38,11 +39,13 @@ export default function RegisterPage() {
     try {
       await api.post('/accounts', data)
 
-      alert('Registration successful! Please log in.')
+      toast.success('Registration successful! Please log in.')
 
       router.push('/login')
     } catch (error) {
-      alert('Error registering. Please check your information and try again.')
+      toast.error(
+        'Error registering. Please check your information and try again.',
+      )
       console.error(error)
     }
   }

@@ -2,6 +2,7 @@ import './globals.css'
 
 import type { Metadata } from 'next'
 import { M_PLUS_Rounded_1c } from 'next/font/google'
+import { Toaster } from 'sonner'
 
 import ReactQueryProvider from '@/app/_providers/react-query-provider'
 
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     <html lang="pt-BR" className={mPlusRounded1c.variable}>
       <body suppressHydrationWarning>
         <ReactQueryProvider>{children}</ReactQueryProvider>
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   )
