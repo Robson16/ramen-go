@@ -10,7 +10,7 @@ export const api = axios.create({
   baseURL: apiBaseUrl,
 })
 
-// Attach the token to every request
+// Attach the access token to every request.
 api.interceptors.request.use((config) => {
   const { '@ramenGo:accessToken': token } = parseCookies()
 
@@ -21,7 +21,7 @@ api.interceptors.request.use((config) => {
   return config
 })
 
-// Intercept responses to handle global errors (like 401s)
+// Log out when the API reports an expired or invalid session.
 api.interceptors.response.use(
   (response) => response,
   (error) => {

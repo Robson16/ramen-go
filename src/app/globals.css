@@ -1,20 +1,14 @@
 @import 'tailwindcss';
 
 :root {
-  /* Base colors for the light theme. */
   --background: 250 250 250;
   --foreground: 0 0 0;
 
-  /* White */
   --white: 255 255 255;
-  /* Blue */
   --primary: 24 32 239;
-  /* Red */
   --secondary: 255 78 66;
-  /* Yellow */
   --tertiary: 255 192 36;
 
-  /* Content Size */
   --content-size: 1087px;
 }
 

@@ -4,7 +4,6 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { useAuthStore } from './auth'
 
 describe('Auth Store', () => {
-  // Clean the area before each test to ensure isolation.
   beforeEach(() => {
     act(() => {
       useAuthStore.getState().logout()
@@ -43,13 +42,11 @@ describe('Auth Store', () => {
       role: 'USER' as const,
     }
 
-    // First we log in.
     act(() => {
       result.current.setUser(mockUser)
     })
     expect(result.current.user).toEqual(mockUser)
 
-    // Then we log out.
     act(() => {
       result.current.logout()
     })
