@@ -55,14 +55,14 @@ export function BrothsTable() {
   if (isLoading) {
     return (
       <div className="flex justify-center py-10">
-        <div className="border-t-primary size-10 animate-spin rounded-full border-4 border-gray-200" />
+        <div className="size-10 animate-spin rounded-full border-4 border-gray-200 border-t-primary" />
       </div>
     )
   }
 
   if (isError || !broths) {
     return (
-      <div className="text-secondary py-10 text-center">
+      <div className="py-10 text-center text-secondary">
         Could not load broths. Please try again.
       </div>
     )
@@ -70,8 +70,8 @@ export function BrothsTable() {
 
   return (
     <div className="overflow-x-auto rounded-xl border border-gray-200">
-      <table className="text-foreground w-full text-left text-sm">
-        <thead className="bg-background text-foreground/70 text-xs uppercase">
+      <table className="w-full text-left text-sm text-foreground">
+        <thead className="bg-background text-xs text-foreground/70 uppercase">
           <tr>
             <th className="px-6 py-4">Image</th>
             <th className="px-6 py-4">Name</th>
@@ -84,10 +84,10 @@ export function BrothsTable() {
           {broths.map((broth) => (
             <tr
               key={broth.id}
-              className="group hover:bg-background/50 border-b border-gray-200 transition-colors last:border-0"
+              className="group border-b border-gray-200 transition-colors last:border-0 hover:bg-background/50"
             >
               <td className="px-6 py-4">
-                <div className="group-hover:bg-primary relative flex size-16 items-center justify-center rounded-full bg-transparent shadow-sm transition-colors">
+                <div className="relative flex size-16 items-center justify-center rounded-full bg-transparent shadow-sm transition-colors group-hover:bg-primary">
                   <Image
                     src={`${env.NEXT_PUBLIC_IMAGES_BASE_URL}/${broth.imageInactive}`}
                     alt={broth.name}
@@ -106,24 +106,24 @@ export function BrothsTable() {
                 </div>
               </td>
               <td className="px-6 py-4 font-bold">{broth.name}</td>
-              <td className="text-foreground/70 px-6 py-4">
+              <td className="px-6 py-4 text-foreground/70">
                 {broth.description}
               </td>
-              <td className="text-secondary px-6 py-4 font-bold">
+              <td className="px-6 py-4 font-bold text-secondary">
                 US$ {broth.price}
               </td>
               <td className="px-6 py-4 text-right">
                 <div className="flex justify-end gap-3">
                   <Link
                     href={`/admin/broths/${broth.id}/edit`}
-                    className="text-primary hover:text-primary/70 transition-colors"
+                    className="text-primary transition-colors hover:text-primary/70"
                   >
                     <Pencil size={20} />
                   </Link>
                   <button
                     onClick={() => handleDelete(broth.id, broth.name)}
                     disabled={isDeleting}
-                    className="text-secondary hover:text-secondary/70 transition-colors"
+                    className="text-secondary transition-colors hover:text-secondary/70"
                   >
                     <Trash2 size={20} />
                   </button>
@@ -135,7 +135,7 @@ export function BrothsTable() {
             <tr>
               <td
                 colSpan={5}
-                className="text-foreground/70 px-6 py-8 text-center"
+                className="px-6 py-8 text-center text-foreground/70"
               >
                 No broths found.
               </td>

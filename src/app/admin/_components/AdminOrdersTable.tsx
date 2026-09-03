@@ -90,14 +90,14 @@ export function AdminOrdersTable() {
   if (isLoading) {
     return (
       <div className="flex justify-center py-10">
-        <div className="border-t-primary size-10 animate-spin rounded-full border-4 border-gray-200" />
+        <div className="size-10 animate-spin rounded-full border-4 border-gray-200 border-t-primary" />
       </div>
     )
   }
 
   if (isError || !orders) {
     return (
-      <div className="text-secondary py-10 text-center">
+      <div className="py-10 text-center text-secondary">
         Could not load orders. Please try again.
       </div>
     )
@@ -105,8 +105,8 @@ export function AdminOrdersTable() {
 
   return (
     <div className="overflow-x-auto rounded-xl border border-gray-200">
-      <table className="text-foreground w-full text-left text-sm">
-        <thead className="bg-background text-foreground/70 text-xs uppercase">
+      <table className="w-full text-left text-sm text-foreground">
+        <thead className="bg-background text-xs text-foreground/70 uppercase">
           <tr>
             <th className="px-6 py-4">Order ID</th>
             <th className="px-6 py-4">Customer</th>
@@ -123,9 +123,9 @@ export function AdminOrdersTable() {
             return (
               <tr
                 key={order.id}
-                className="hover:bg-background/50 border-b border-gray-200 transition-colors last:border-0"
+                className="border-b border-gray-200 transition-colors last:border-0 hover:bg-background/50"
               >
-                <td className="text-foreground/50 px-6 py-4 font-mono text-xs">
+                <td className="px-6 py-4 font-mono text-xs text-foreground/50">
                   {order.id.split('-')[0]}...
                 </td>
                 <td className="px-6 py-4 font-bold">
@@ -161,7 +161,7 @@ export function AdminOrdersTable() {
                       })
                     }
                     disabled={isUpdating}
-                    className="hover:border-primary focus:border-primary cursor-pointer rounded-lg border border-gray-300 bg-white p-2 text-sm font-medium transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                    className="cursor-pointer rounded-lg border border-gray-300 bg-white p-2 text-sm font-medium transition-colors outline-none hover:border-primary focus:border-primary disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <option value="PENDING">Pending</option>
                     <option value="PREPARING">Preparing</option>
@@ -176,7 +176,7 @@ export function AdminOrdersTable() {
             <tr>
               <td
                 colSpan={5}
-                className="text-foreground/70 px-6 py-8 text-center"
+                className="px-6 py-8 text-center text-foreground/70"
               >
                 No orders in the queue.
               </td>

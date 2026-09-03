@@ -94,7 +94,7 @@ export function ProfileForm() {
   if (isLoading) {
     return (
       <div className="flex justify-center py-10">
-        <div className="border-t-primary size-16 animate-spin rounded-full border-8 border-gray-200" />
+        <div className="size-16 animate-spin rounded-full border-8 border-gray-200 border-t-primary" />
       </div>
     )
   }
@@ -122,7 +122,7 @@ export function ProfileForm() {
             type="text"
             defaultValue={profile.name}
             required
-            className="focus:border-primary focus:ring-primary w-full rounded-md border border-gray-300 p-3 outline-none focus:ring-1"
+            className="w-full rounded-md border border-gray-300 p-3 outline-none focus:border-primary focus:ring-1 focus:ring-primary"
           />
         </div>
 
@@ -142,7 +142,7 @@ export function ProfileForm() {
         <button
           type="submit"
           disabled={updateProfile.isPending}
-          className="bg-primary mt-4 rounded-full px-8 py-4 font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+          className="mt-4 rounded-full bg-primary px-8 py-4 font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           {updateProfile.isPending ? 'SAVING...' : 'SAVE CHANGES'}
         </button>

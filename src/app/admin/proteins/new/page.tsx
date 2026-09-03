@@ -117,11 +117,11 @@ export default function NewProteinPage() {
       <div className="mb-8 flex items-center gap-4">
         <Link
           href="/admin/proteins"
-          className="bg-background flex size-10 items-center justify-center rounded-full transition-colors hover:bg-gray-100"
+          className="flex size-10 items-center justify-center rounded-full bg-background transition-colors hover:bg-gray-100"
         >
           <ArrowLeft size={20} className="text-foreground/70" />
         </Link>
-        <h1 className="text-foreground text-2xl font-black">New Protein</h1>
+        <h1 className="text-2xl font-black text-foreground">New Protein</h1>
       </div>
 
       <form
@@ -134,7 +134,7 @@ export default function NewProteinPage() {
           <div>
             <label
               htmlFor="imageActive"
-              className="text-foreground mb-2 block text-sm font-bold"
+              className="mb-2 block text-sm font-bold text-foreground"
             >
               Active SVG Image
             </label>
@@ -142,7 +142,7 @@ export default function NewProteinPage() {
               className={`relative flex w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed py-10 transition-colors ${
                 activeImageFile && activeImageFile.length > 0
                   ? 'border-green-500 bg-green-50'
-                  : 'bg-background hover:border-primary border-gray-300'
+                  : 'border-gray-300 bg-background hover:border-primary'
               }`}
             >
               {activeImageFile && activeImageFile.length > 0 ? (
@@ -154,8 +154,8 @@ export default function NewProteinPage() {
                 </>
               ) : (
                 <>
-                  <Upload className="text-primary mb-2" size={24} />
-                  <span className="text-foreground/70 text-xs">
+                  <Upload className="mb-2 text-primary" size={24} />
+                  <span className="text-xs text-foreground/70">
                     Click to upload SVG
                   </span>
                 </>
@@ -171,7 +171,7 @@ export default function NewProteinPage() {
               />
             </div>
             {errors.imageActive && (
-              <span className="text-secondary mt-1 block text-sm">
+              <span className="mt-1 block text-sm text-secondary">
                 {errors.imageActive.message as string}
               </span>
             )}
@@ -180,7 +180,7 @@ export default function NewProteinPage() {
           <div>
             <label
               htmlFor="imageInactive"
-              className="text-foreground mb-2 block text-sm font-bold"
+              className="mb-2 block text-sm font-bold text-foreground"
             >
               Inactive SVG Image
             </label>
@@ -188,7 +188,7 @@ export default function NewProteinPage() {
               className={`relative flex w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed py-10 transition-colors ${
                 inactiveImageFile && inactiveImageFile.length > 0
                   ? 'border-green-500 bg-green-50'
-                  : 'bg-background hover:border-primary border-gray-300'
+                  : 'border-gray-300 bg-background hover:border-primary'
               }`}
             >
               {inactiveImageFile && inactiveImageFile.length > 0 ? (
@@ -200,8 +200,8 @@ export default function NewProteinPage() {
                 </>
               ) : (
                 <>
-                  <Upload className="text-primary mb-2" size={24} />
-                  <span className="text-foreground/70 text-xs">
+                  <Upload className="mb-2 text-primary" size={24} />
+                  <span className="text-xs text-foreground/70">
                     Click to upload SVG
                   </span>
                 </>
@@ -217,7 +217,7 @@ export default function NewProteinPage() {
               />
             </div>
             {errors.imageInactive && (
-              <span className="text-secondary mt-1 block text-sm">
+              <span className="mt-1 block text-sm text-secondary">
                 {errors.imageInactive.message as string}
               </span>
             )}
@@ -227,7 +227,7 @@ export default function NewProteinPage() {
         <div>
           <label
             htmlFor="name"
-            className="text-foreground mb-1 block text-sm font-bold"
+            className="mb-1 block text-sm font-bold text-foreground"
           >
             Name
           </label>
@@ -235,12 +235,12 @@ export default function NewProteinPage() {
             id="name"
             type="text"
             placeholder="Chashu"
-            className="focus:border-primary focus:ring-primary w-full rounded-lg border border-gray-300 p-3 outline-none focus:ring-1"
+            className="w-full rounded-lg border border-gray-300 p-3 outline-none focus:border-primary focus:ring-1 focus:ring-primary"
             disabled={isSubmitting}
             {...register('name')}
           />
           {errors.name && (
-            <span className="text-secondary mt-1 block text-sm">
+            <span className="mt-1 block text-sm text-secondary">
               {errors.name.message}
             </span>
           )}
@@ -249,7 +249,7 @@ export default function NewProteinPage() {
         <div>
           <label
             htmlFor="description"
-            className="text-foreground mb-1 block text-sm font-bold"
+            className="mb-1 block text-sm font-bold text-foreground"
           >
             Description
           </label>
@@ -257,12 +257,12 @@ export default function NewProteinPage() {
             id="description"
             rows={3}
             placeholder="Sliced pork belly..."
-            className="focus:border-primary focus:ring-primary w-full resize-none rounded-lg border border-gray-300 p-3 outline-none focus:ring-1"
+            className="w-full resize-none rounded-lg border border-gray-300 p-3 outline-none focus:border-primary focus:ring-1 focus:ring-primary"
             disabled={isSubmitting}
             {...register('description')}
           />
           {errors.description && (
-            <span className="text-secondary mt-1 block text-sm">
+            <span className="mt-1 block text-sm text-secondary">
               {errors.description.message}
             </span>
           )}
@@ -271,7 +271,7 @@ export default function NewProteinPage() {
         <div>
           <label
             htmlFor="price"
-            className="text-foreground mb-1 block text-sm font-bold"
+            className="mb-1 block text-sm font-bold text-foreground"
           >
             Price (US$)
           </label>
@@ -280,12 +280,12 @@ export default function NewProteinPage() {
             type="number"
             step="0.01"
             placeholder="10.00"
-            className="focus:border-primary focus:ring-primary w-full rounded-lg border border-gray-300 p-3 outline-none focus:ring-1"
+            className="w-full rounded-lg border border-gray-300 p-3 outline-none focus:border-primary focus:ring-1 focus:ring-primary"
             disabled={isSubmitting}
             {...register('price', { valueAsNumber: true })}
           />
           {errors.price && (
-            <span className="text-secondary mt-1 block text-sm">
+            <span className="mt-1 block text-sm text-secondary">
               {errors.price.message}
             </span>
           )}
@@ -294,7 +294,7 @@ export default function NewProteinPage() {
         <button
           type="submit"
           disabled={isPending}
-          className="bg-primary mt-4 flex w-full justify-center rounded-lg p-4 font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+          className="mt-4 flex w-full justify-center rounded-lg bg-primary p-4 font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           {isPending ? (
             <div className="size-6 animate-spin rounded-full border-2 border-white border-t-transparent" />
