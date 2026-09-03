@@ -113,14 +113,11 @@ describe('AdminOrdersTable Component', () => {
     )
 
     await waitFor(() => {
-      // Check customer name
       expect(screen.getByText('Robson Rodrigues')).toBeInTheDocument()
 
-      // Check ingredients
       expect(screen.getByText('Tonkotsu')).toBeInTheDocument()
       expect(screen.getByText('Chashu')).toBeInTheDocument()
 
-      // Check default status styling
       expect(screen.getAllByText('Pending')).toHaveLength(2)
     })
   })
@@ -149,16 +146,13 @@ describe('AdminOrdersTable Component', () => {
       </QueryClientProvider>,
     )
 
-    // Wait for data to load
     await waitFor(() => {
       expect(screen.getByText('Customer A')).toBeInTheDocument()
     })
 
-    // Find the select element and trigger a change event
     const select = screen.getByRole('combobox')
     fireEvent.change(select, { target: { value: 'PREPARING' } })
 
-    // Ensure the correct admin contract URL and payload were called
     await waitFor(() => {
       expect(api.patch).toHaveBeenCalledWith(
         '/admin/orders/order-to-update/status',

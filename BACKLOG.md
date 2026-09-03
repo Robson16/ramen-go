@@ -124,6 +124,6 @@ Este documento mapeia todas as tarefas necessárias para atualizar a interface w
 
 > _"Como QA, quero testar as jornadas críticas do usuário do início ao fim, simulando um navegador real."_
 
-- [ ] Instalar e configurar o **Playwright** (ou Cypress).
-- [ ] Escrever teste E2E para o fluxo: Login -> Selecionar ingredientes -> Enviar pedido -> Visualizar tela de sucesso.
-- [ ] Escrever teste E2E garantindo que usuários não logados são bloqueados na página Home.
+- [x] Instalar e configurar o **Playwright** (ou Cypress).
+- [x] Escrever teste E2E para o fluxo: Login -> Selecionar ingredientes -> Enviar pedido -> Visualizar tela de sucesso.
+- [x] Escrever teste E2E garantindo que usuários não logados são bloqueados na página Home.
