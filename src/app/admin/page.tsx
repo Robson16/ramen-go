@@ -1,3 +1,5 @@
+import { MetricsCards } from './_components/MetricsCards'
+
 export default function AdminDashboard() {
   return (
     <div>
@@ -7,24 +9,7 @@ export default function AdminDashboard() {
         to manage the restaurant.
       </p>
 
-      <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
-        <div className="rounded-xl border border-gray-200 bg-background p-6">
-          <p className="text-sm font-medium text-foreground/70">Orders Today</p>
-          <p className="mt-2 text-3xl font-black text-secondary">12</p>
-        </div>
-        <div className="rounded-xl border border-gray-200 bg-background p-6">
-          <p className="text-sm font-medium text-foreground/70">
-            Active Broths
-          </p>
-          <p className="mt-2 text-3xl font-black text-secondary">4</p>
-        </div>
-        <div className="rounded-xl border border-gray-200 bg-background p-6">
-          <p className="text-sm font-medium text-foreground/70">
-            Active Proteins
-          </p>
-          <p className="mt-2 text-3xl font-black text-secondary">3</p>
-        </div>
-      </div>
+      <MetricsCards />
     </div>
   )
 }

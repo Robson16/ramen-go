@@ -47,12 +47,12 @@ export function OrderList() {
   if (!orders || orders.length === 0) {
     return (
       <div className="py-10 text-center">
-        <p className="mb-6 text-lg text-secondary">
+        <p className="mb-6 text-lg text-tertiary">
           You haven&apos;t placed any orders yet.
         </p>
         <Link
           href="/"
-          className="inline-flex rounded-full bg-primary px-8 py-4 font-bold text-white transition-opacity hover:opacity-90"
+          className="inline-flex rounded-full bg-secondary px-8 py-4 font-bold text-white transition-opacity hover:opacity-90"
         >
           PLACE MY FIRST ORDER
         </Link>

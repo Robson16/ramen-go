@@ -127,3 +127,57 @@ Este documento mapeia todas as tarefas necessárias para atualizar a interface w
 - [x] Instalar e configurar o **Playwright** (ou Cypress).
 - [x] Escrever teste E2E para o fluxo: Login -> Selecionar ingredientes -> Enviar pedido -> Visualizar tela de sucesso.
 - [x] Escrever teste E2E garantindo que usuários não logados são bloqueados na página Home.
+
+---
+
+## 📊 Épico 7: Dashboard Administrativo (Métricas)
+
+**Contexto:** O admin precisa de uma visão rápida do desempenho do restaurante logo que faz login.
+
+### User Story 7.1: Visualização de Métricas
+
+> _"Como administrador, quero um painel inicial que mostre as métricas do restaurante para acompanhamento do negócio."_
+
+- [x] Criar a página principal do Dashboard Administrativo (`/admin`).
+- [x] Integrar com a rota `GET /admin/metrics` para buscar as contagens.
+- [x] Criar componentes de "Cards de Estatística" para exibir:
+  - Total de Caldos Cadastrados
+  - Total de Proteínas Cadastradas
+  - Total de Pedidos Realizados
+
+---
+
+## 🖼️ Épico 8: Media Library (Gestão Desacoplada de Mídia)
+
+**Contexto:** Refletir no front-end a nova arquitetura do back-end, onde imagens não são mais enviadas diretamente no formulário de Caldos/Proteínas, mas gerenciadas em uma galeria central.
+
+### User Story 8.1: A Galeria de Imagens (CRUD de Mídia)
+
+> _"Como administrador, quero uma página dedicada para gerenciar todos os ícones e imagens do sistema de forma independente."_
+
+- [ ] Criar a página "Media Library" ou "Galeria" no painel administrativo (`/admin/media`).
+- [ ] Integrar a listagem de imagens (`GET /admin/images`) utilizando React Query com suporte à paginação (`?page=x`).
+- [ ] Mover o componente de Upload (Dropzone) para esta página, integrando com `POST /admin/images`.
+- [ ] Implementar a funcionalidade de exclusão de imagem (`DELETE /admin/images/:id`), exibindo um erro amigável se a API retornar `409 Conflict` (imagem em uso).
+- [ ] Implementar a edição de título da imagem (`PATCH /admin/images/:id`).
+
+### User Story 8.2: Seletor de Mídia nos Formulários do Catálogo
+
+> _"Como administrador, ao criar ou editar um Caldo/Proteína, quero selecionar uma imagem já existente na Media Library, em vez de fazer um novo upload."_
+
+- [ ] Refatorar os formulários de Caldos e Proteínas: remover o campo de "Upload de Arquivo".
+- [ ] Criar um componente "Seletor de Imagem" (Image Picker) que abre um modal com a lista de imagens cadastradas (`GET /admin/images`).
+- [ ] Ao invés de enviar um arquivo, o formulário de Caldos/Proteínas deve enviar os IDs das imagens selecionadas (`imageActiveId` e `imageInactiveId`) no payload do `POST / PUT`.
+
+---
+
+## 🛠️ Épico 9: Tratamento Avançado de Respostas
+
+**Contexto:** Com a nossa API super blindada, precisamos que o front-end saiba lidar com os códigos de erro semânticos (404, 409) de forma elegante.
+
+### User Story 9.1: UX de Integridade Relacional
+
+> _"Como administrador, preciso entender o porquê de certas ações serem bloqueadas, para manter o catálogo consistente."_
+
+- [ ] Melhorar o tratamento de erro na edição de Status do Pedido: capturar o erro `409 Conflict` ("The order has already been delivered") e desabilitar o select de status.
+- [ ] Tratamento global para erros de conflito (`409`) em deleções: se tentar excluir um Caldo que já está em um pedido, ou uma Imagem que está num Caldo, mostrar um toast explicativo.
