@@ -155,7 +155,7 @@ Este documento mapeia todas as tarefas necessárias para atualizar a interface w
 
 > _"Como administrador, quero uma página dedicada para gerenciar todos os ícones e imagens do sistema de forma independente."_
 
-- [ ] Criar a página "Media Library" ou "Galeria" no painel administrativo (`/admin/media`).
+- [x] Criar a página "Media Library" ou "Galeria" no painel administrativo (`/admin/media`).
 - [ ] Integrar a listagem de imagens (`GET /admin/images`) utilizando React Query com suporte à paginação (`?page=x`).
 - [ ] Mover o componente de Upload (Dropzone) para esta página, integrando com `POST /admin/images`.
 - [ ] Implementar a funcionalidade de exclusão de imagem (`DELETE /admin/images/:id`), exibindo um erro amigável se a API retornar `409 Conflict` (imagem em uso).
