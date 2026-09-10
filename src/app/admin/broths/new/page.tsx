@@ -3,26 +3,16 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { isAxiosError } from 'axios'
-import { ArrowLeft, CheckCircle2, Upload } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, ImageIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { api } from '@/app/_lib/axios'
-
-const imageFileSchema = (label: 'Active' | 'Inactive') =>
-  z
-    .custom<FileList>(
-      (value): value is FileList =>
-        value instanceof FileList && value.length === 1,
-      { message: `${label} image is required.` },
-    )
-    .refine(
-      (files) => files[0]?.type === 'image/svg+xml',
-      'Only SVG files are allowed.',
-    )
+import { MediaPickerModal } from '@/app/admin/_components/MediaPickerModal'
 
 const brothSchema = z.object({
   name: z.string().min(3, 'Name must be at least 3 characters long.'),
@@ -32,8 +22,8 @@ const brothSchema = z.object({
   price: z
     .number({ message: 'Price is required.' })
     .gt(0, 'Price must be greater than 0.'),
-  imageActive: imageFileSchema('Active'),
-  imageInactive: imageFileSchema('Inactive'),
+  imageActiveId: z.string().min(1, 'Active image is required.'),
+  imageInactiveId: z.string().min(1, 'Inactive image is required.'),
 })
 
 type BrothInputs = z.infer<typeof brothSchema>
@@ -42,56 +32,33 @@ export default function NewBrothPage() {
   const router = useRouter()
   const queryClient = useQueryClient()
 
+  const [isPickerOpen, setIsPickerOpen] = useState(false)
+  const [targetField, setTargetField] = useState<
+    'imageActiveId' | 'imageInactiveId' | null
+  >(null)
+
   const {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<BrothInputs>({
     resolver: zodResolver(brothSchema),
   })
 
-  const activeImageFile = useWatch({
-    control,
-    name: 'imageActive',
-  })
+  const activeImageId = useWatch({ control, name: 'imageActiveId' })
+  const inactiveImageId = useWatch({ control, name: 'imageInactiveId' })
 
-  const inactiveImageFile = useWatch({
-    control,
-    name: 'imageInactive',
-  })
+  const handleImageSelect = (image: { id: string }) => {
+    if (targetField) {
+      setValue(targetField, image.id, { shouldValidate: true })
+    }
+  }
 
   const { mutateAsync: createBroth, isPending } = useMutation({
     mutationFn: async (data: BrothInputs) => {
-      const activeImageFormData = new FormData()
-      activeImageFormData.append('file', data.imageActive[0])
-      const activeRes = await api.post<{ imageId: string }>(
-        'admin/images',
-        activeImageFormData,
-        {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        },
-      )
-      const imageActiveId = activeRes.data.imageId
-
-      const inactiveImageFormData = new FormData()
-      inactiveImageFormData.append('file', data.imageInactive[0])
-      const inactiveRes = await api.post<{ imageId: string }>(
-        'admin/images',
-        inactiveImageFormData,
-        {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        },
-      )
-      const imageInactiveId = inactiveRes.data.imageId
-
-      await api.post('admin/broths', {
-        name: data.name,
-        description: data.description,
-        price: data.price,
-        imageActiveId,
-        imageInactiveId,
-      })
+      await api.post('admin/broths', data)
     },
     onSuccess: () => {
       toast.success('Broth created successfully!')
@@ -132,93 +99,93 @@ export default function NewBrothPage() {
       >
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div>
-            <label
-              htmlFor="imageActive"
-              className="mb-2 block text-sm font-bold text-foreground"
-            >
-              Active SVG Image
+            <label className="mb-2 block text-sm font-bold text-foreground">
+              Active Media
             </label>
+            <input type="hidden" {...register('imageActiveId')} />
             <div
-              className={`relative flex w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed py-10 transition-colors ${
-                activeImageFile && activeImageFile.length > 0
+              onClick={() => {
+                setTargetField('imageActiveId')
+                setIsPickerOpen(true)
+              }}
+              className={`relative flex h-40 w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl border-2 transition-colors ${
+                activeImageId
                   ? 'border-green-500 bg-green-50'
-                  : 'border-gray-300 bg-background hover:border-primary'
+                  : errors.imageActiveId
+                    ? 'border-red-400 bg-red-50'
+                    : 'border-dashed border-gray-300 bg-background hover:border-primary'
               }`}
             >
-              {activeImageFile && activeImageFile.length > 0 ? (
-                <>
-                  <CheckCircle2 className="mb-2 text-green-500" size={24} />
-                  <span className="truncate px-4 text-center text-xs font-medium text-green-700">
-                    {activeImageFile[0].name}
+              {activeImageId ? (
+                <div className="flex flex-col items-center p-4">
+                  <CheckCircle2 className="mb-2 text-green-500" size={32} />
+                  <span className="text-center text-xs font-semibold text-green-700">
+                    Media Selected!
                   </span>
-                </>
+                </div>
               ) : (
                 <>
-                  <Upload className="mb-2 text-primary" size={24} />
-                  <span className="text-xs text-foreground/70">
-                    Click to upload SVG
+                  <ImageIcon
+                    className={`mb-2 ${errors.imageActiveId ? 'text-red-400' : 'text-primary'}`}
+                    size={32}
+                  />
+                  <span
+                    className={`text-xs font-medium ${errors.imageActiveId ? 'text-red-500' : 'text-foreground/70'}`}
+                  >
+                    Select from Media Library
                   </span>
                 </>
               )}
-
-              <input
-                id="imageActive"
-                type="file"
-                accept=".svg"
-                className="absolute inset-0 z-50 size-full cursor-pointer opacity-0"
-                disabled={isSubmitting}
-                {...register('imageActive')}
-              />
             </div>
-            {errors.imageActive && (
+            {errors.imageActiveId && (
               <span className="mt-1 block text-sm text-secondary">
-                {errors.imageActive.message as string}
+                {errors.imageActiveId.message}
               </span>
             )}
           </div>
 
           <div>
-            <label
-              htmlFor="imageInactive"
-              className="mb-2 block text-sm font-bold text-foreground"
-            >
-              Inactive SVG Image
+            <label className="mb-2 block text-sm font-bold text-foreground">
+              Inactive Media
             </label>
+            <input type="hidden" {...register('imageInactiveId')} />
             <div
-              className={`relative flex w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed py-10 transition-colors ${
-                inactiveImageFile && inactiveImageFile.length > 0
+              onClick={() => {
+                setTargetField('imageInactiveId')
+                setIsPickerOpen(true)
+              }}
+              className={`relative flex h-40 w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl border-2 transition-colors ${
+                inactiveImageId
                   ? 'border-green-500 bg-green-50'
-                  : 'border-gray-300 bg-background hover:border-primary'
+                  : errors.imageInactiveId
+                    ? 'border-red-400 bg-red-50'
+                    : 'border-dashed border-gray-300 bg-background hover:border-primary'
               }`}
             >
-              {inactiveImageFile && inactiveImageFile.length > 0 ? (
-                <>
-                  <CheckCircle2 className="mb-2 text-green-500" size={24} />
-                  <span className="truncate px-4 text-center text-xs font-medium text-green-700">
-                    {inactiveImageFile[0].name}
+              {inactiveImageId ? (
+                <div className="flex flex-col items-center p-4">
+                  <CheckCircle2 className="mb-2 text-green-500" size={32} />
+                  <span className="text-center text-xs font-semibold text-green-700">
+                    Media Selected!
                   </span>
-                </>
+                </div>
               ) : (
                 <>
-                  <Upload className="mb-2 text-primary" size={24} />
-                  <span className="text-xs text-foreground/70">
-                    Click to upload SVG
+                  <ImageIcon
+                    className={`mb-2 ${errors.imageInactiveId ? 'text-red-400' : 'text-primary'}`}
+                    size={32}
+                  />
+                  <span
+                    className={`text-xs font-medium ${errors.imageInactiveId ? 'text-red-500' : 'text-foreground/70'}`}
+                  >
+                    Select from Media Library
                   </span>
                 </>
               )}
-
-              <input
-                id="imageInactive"
-                type="file"
-                accept=".svg"
-                className="absolute inset-0 z-50 size-full cursor-pointer opacity-0"
-                disabled={isSubmitting}
-                {...register('imageInactive')}
-              />
             </div>
-            {errors.imageInactive && (
+            {errors.imageInactiveId && (
               <span className="mt-1 block text-sm text-secondary">
-                {errors.imageInactive.message as string}
+                {errors.imageInactiveId.message}
               </span>
             )}
           </div>
@@ -303,6 +270,15 @@ export default function NewBrothPage() {
           )}
         </button>
       </form>
+
+      <MediaPickerModal
+        isOpen={isPickerOpen}
+        onClose={() => {
+          setIsPickerOpen(false)
+          setTargetField(null)
+        }}
+        onSelect={handleImageSelect}
+      />
     </div>
   )
 }

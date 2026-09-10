@@ -9,13 +9,18 @@ import { toast } from 'sonner'
 import { api } from '@/app/_lib/axios'
 import { env } from '@/app/env'
 
+interface ProteinImage {
+  id: string
+  url: string
+}
+
 interface Protein {
   id: string
   name: string
   description: string
   price: number
-  imageActive: string
-  imageInactive: string
+  imageActive: ProteinImage
+  imageInactive: ProteinImage
 }
 
 export function ProteinsTable() {
@@ -89,7 +94,7 @@ export function ProteinsTable() {
               <td className="px-6 py-4">
                 <div className="relative flex size-16 items-center justify-center rounded-full bg-transparent shadow-sm transition-colors group-hover:bg-primary">
                   <Image
-                    src={`${env.NEXT_PUBLIC_IMAGES_BASE_URL}/${protein.imageInactive}`}
+                    src={`${env.NEXT_PUBLIC_IMAGES_BASE_URL}/${protein.imageInactive.url}`}
                     alt={protein.name}
                     width={48}
                     height={48}
@@ -97,7 +102,7 @@ export function ProteinsTable() {
                   />
 
                   <Image
-                    src={`${env.NEXT_PUBLIC_IMAGES_BASE_URL}/${protein.imageActive}`}
+                    src={`${env.NEXT_PUBLIC_IMAGES_BASE_URL}/${protein.imageActive.url}`}
                     alt={protein.name}
                     width={48}
                     height={48}

@@ -14,9 +14,15 @@ const mockProtein = {
   name: 'Chashu',
   description: 'Sliced pork belly with rich flavor.',
   price: 10.0,
-  imageActive: 'active-1.svg',
-  imageInactive: 'inactive-1.svg',
+  imageActive: { id: 'img-active-123', url: 'active-1.svg' },
+  imageInactive: { id: 'img-inactive-123', url: 'inactive-1.svg' },
 }
+
+vi.mock('@/app/env', () => ({
+  env: {
+    NEXT_PUBLIC_IMAGES_BASE_URL: 'https://test-bucket.r2.dev',
+  },
+}))
 
 vi.mock('next/navigation', () => ({
   useRouter: vi.fn(() => ({
@@ -34,6 +40,47 @@ vi.mock('@tanstack/react-query', () => ({
     invalidateQueries: vi.fn(),
   })),
 }))
+
+vi.mock('@/app/admin/_components/MediaPickerModal', () => {
+  interface MockMediaPickerModalProps {
+    isOpen: boolean
+    onSelect: (image: { id: string; url: string }) => void
+    onClose: () => void
+  }
+
+  return {
+    MediaPickerModal: ({
+      isOpen,
+      onSelect,
+      onClose,
+    }: MockMediaPickerModalProps) => {
+      if (!isOpen) return null
+
+      return (
+        <div data-testid="mock-media-picker">
+          <button
+            data-testid="select-active-mock"
+            onClick={() => {
+              onSelect({ id: 'new-active-id-999', url: 'new-active.svg' })
+              onClose()
+            }}
+          >
+            Select Active
+          </button>
+          <button
+            data-testid="select-inactive-mock"
+            onClick={() => {
+              onSelect({ id: 'new-inactive-id-888', url: 'new-inactive.svg' })
+              onClose()
+            }}
+          >
+            Select Inactive
+          </button>
+        </div>
+      )
+    },
+  }
+})
 
 describe('EditProteinPage', () => {
   beforeEach(() => {
@@ -61,7 +108,7 @@ describe('EditProteinPage', () => {
     })
   })
 
-  it('should submit form with updated data and optional images', async () => {
+  it('should submit form with updated data and new image IDs selected from modal', async () => {
     const user = userEvent.setup()
 
     render(<EditProteinPage />)
@@ -82,10 +129,14 @@ describe('EditProteinPage', () => {
     await user.clear(screen.getByLabelText('Price (US$)'))
     await user.type(screen.getByLabelText('Price (US$)'), '3.50')
 
-    await user.upload(
-      screen.getByLabelText('New Active SVG (Optional)'),
-      new File(['active'], 'active-new.svg', { type: 'image/svg+xml' }),
-    )
+    const mediaButtons = screen.getAllByText(/CHANGE MEDIA/i)
+
+    await user.click(mediaButtons[0])
+
+    const selectActiveMockButton =
+      await screen.findByTestId('select-active-mock')
+
+    await user.click(selectActiveMockButton)
 
     await user.click(screen.getByRole('button', { name: /update protein/i }))
 
@@ -96,12 +147,13 @@ describe('EditProteinPage', () => {
           name: 'Ajitsuke Tamago',
           description: 'Marinated soft-boiled egg with umami flavor.',
           price: 3.5,
+          imageActiveId: 'new-active-id-999',
         }),
       )
     })
   })
 
-  it('should submit form without new images if not provided', async () => {
+  it('should submit form retaining original image IDs if modal is not used', async () => {
     const user = userEvent.setup()
 
     render(<EditProteinPage />)
@@ -122,6 +174,8 @@ describe('EditProteinPage', () => {
           name: 'Kikurage',
           description: 'Sliced pork belly with rich flavor.',
           price: 10,
+          imageActiveId: expect.any(String),
+          imageInactiveId: expect.any(String),
         }),
       )
     })

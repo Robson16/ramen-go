@@ -2,15 +2,18 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { ArrowLeft, CheckCircle2, Upload } from 'lucide-react'
+import { ArrowLeft, Image as ImageIcon } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-import { useForm, useWatch } from 'react-hook-form'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { api } from '@/app/_lib/axios'
+import { MediaPickerModal } from '@/app/admin/_components/MediaPickerModal'
+import { env } from '@/app/env'
 
 const editBrothSchema = z.object({
   name: z.string().min(3, 'Name must be at least 3 characters long.'),
@@ -20,11 +23,25 @@ const editBrothSchema = z.object({
   price: z
     .number({ message: 'Price is required.' })
     .gt(0, 'Price must be greater than 0.'),
-  imageActive: z.any().optional(),
-  imageInactive: z.any().optional(),
+  imageActiveId: z.string().optional(),
+  imageInactiveId: z.string().optional(),
 })
 
 type EditBrothInputs = z.infer<typeof editBrothSchema>
+
+interface MediaObject {
+  id: string
+  url: string
+}
+
+interface Broth {
+  id: string
+  name: string
+  description: string
+  price: number
+  imageActive: MediaObject
+  imageInactive: MediaObject
+}
 
 interface BrothUpdatePayload {
   name: string
@@ -34,25 +51,26 @@ interface BrothUpdatePayload {
   imageInactiveId?: string
 }
 
-interface Broth {
-  id: string
-  name: string
-  description: string
-  price: number
-  imageActive: string
-  imageInactive: string
-}
-
 export default function EditBrothPage() {
   const router = useRouter()
   const params = useParams()
   const brothId = params.brothId as string
   const queryClient = useQueryClient()
 
+  const [isPickerOpen, setIsPickerOpen] = useState(false)
+  const [targetField, setTargetField] = useState<
+    'imageActiveId' | 'imageInactiveId' | null
+  >(null)
+
+  const [activePreviewUrl, setActivePreviewUrl] = useState<string | null>(null)
+  const [inactivePreviewUrl, setInactivePreviewUrl] = useState<string | null>(
+    null,
+  )
+
   const { data: broth, isLoading: isLoadingBroth } = useQuery({
     queryKey: ['broths'],
     queryFn: async () => {
-      const response = await api.get<{ broths: Broth[] }>('admin/broths')
+      const response = await api.get<{ broths: Broth[] }>('/broths')
       return response.data.broths
     },
     select: (broths) => broths.find((broth) => broth.id === brothId),
@@ -61,15 +79,12 @@ export default function EditBrothPage() {
   const {
     register,
     handleSubmit,
-    control,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<EditBrothInputs>({
     resolver: zodResolver(editBrothSchema),
   })
-
-  const activeImageFile = useWatch({ control, name: 'imageActive' })
-  const inactiveImageFile = useWatch({ control, name: 'imageInactive' })
 
   useEffect(() => {
     if (broth) {
@@ -81,6 +96,18 @@ export default function EditBrothPage() {
     }
   }, [broth, reset])
 
+  const handleImageSelect = (image: { id: string; url: string }) => {
+    if (targetField) {
+      setValue(targetField, image.id, { shouldValidate: true })
+
+      if (targetField === 'imageActiveId') {
+        setActivePreviewUrl(image.url)
+      } else if (targetField === 'imageInactiveId') {
+        setInactivePreviewUrl(image.url)
+      }
+    }
+  }
+
   const { mutate: updateBroth, isPending } = useMutation({
     mutationFn: async (data: EditBrothInputs) => {
       const updatePayload: BrothUpdatePayload = {
@@ -89,30 +116,12 @@ export default function EditBrothPage() {
         price: data.price,
       }
 
-      if (data.imageActive && data.imageActive.length > 0) {
-        const activeFormData = new FormData()
-        activeFormData.append('file', data.imageActive[0])
-        const res = await api.post<{ imageId: string }>(
-          'admin/images',
-          activeFormData,
-          {
-            headers: { 'Content-Type': 'multipart/form-data' },
-          },
-        )
-        updatePayload.imageActiveId = res.data.imageId
+      if (data.imageActiveId && data.imageActiveId.trim() !== '') {
+        updatePayload.imageActiveId = data.imageActiveId
       }
 
-      if (data.imageInactive && data.imageInactive.length > 0) {
-        const inactiveFormData = new FormData()
-        inactiveFormData.append('file', data.imageInactive[0])
-        const res = await api.post<{ imageId: string }>(
-          'admin/images',
-          inactiveFormData,
-          {
-            headers: { 'Content-Type': 'multipart/form-data' },
-          },
-        )
-        updatePayload.imageInactiveId = res.data.imageId
+      if (data.imageInactiveId && data.imageInactiveId.trim() !== '') {
+        updatePayload.imageInactiveId = data.imageInactiveId
       }
 
       await api.put(`admin/broths/${brothId}`, updatePayload)
@@ -160,82 +169,94 @@ export default function EditBrothPage() {
       >
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div>
-            <label
-              htmlFor="imageActive"
-              className="mb-2 block text-sm font-bold text-foreground"
-            >
-              New Active SVG (Optional)
+            <label className="mb-2 block text-sm font-bold text-foreground">
+              Active Media (Optional)
             </label>
+            <input type="hidden" {...register('imageActiveId')} />
             <div
-              className={`relative flex w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed py-10 transition-colors ${
-                activeImageFile && activeImageFile.length > 0
-                  ? 'border-green-500 bg-green-50'
-                  : 'border-gray-300 bg-background hover:border-primary'
+              onClick={() => {
+                setTargetField('imageActiveId')
+                setIsPickerOpen(true)
+              }}
+              className={`relative flex h-40 w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl border-2 transition-colors ${
+                activePreviewUrl || broth?.imageActive?.url
+                  ? 'border-green-500 bg-gray-400/20 hover:bg-green-50'
+                  : 'border-dashed border-gray-300 bg-background hover:border-primary'
               }`}
             >
-              {activeImageFile && activeImageFile.length > 0 ? (
+              {activePreviewUrl || broth?.imageActive?.url ? (
                 <>
-                  <CheckCircle2 className="mb-2 text-green-500" size={24} />
-                  <span className="truncate px-4 text-center text-xs font-medium text-green-700">
-                    {activeImageFile[0].name}
-                  </span>
+                  <Image
+                    src={`${env.NEXT_PUBLIC_IMAGES_BASE_URL}/${activePreviewUrl || broth.imageActive.url}`}
+                    alt="Current Active Image"
+                    fill
+                    className="object-contain p-4"
+                  />
+                  {activePreviewUrl && (
+                    <div className="absolute top-2 left-2 rounded-md bg-green-500 px-2 py-1 text-[10px] font-bold text-white shadow">
+                      NEW SELECTION
+                    </div>
+                  )}
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity hover:opacity-100">
+                    <span className="rounded-full bg-white px-4 py-2 text-xs font-bold text-black shadow-lg">
+                      CHANGE MEDIA
+                    </span>
+                  </div>
                 </>
               ) : (
                 <>
-                  <Upload className="mb-2 text-primary" size={24} />
-                  <span className="text-xs text-foreground/70">
-                    Keep current or upload new
+                  <ImageIcon className="mb-2 text-primary" size={32} />
+                  <span className="text-xs font-medium text-foreground/70">
+                    Select from Media Library
                   </span>
                 </>
               )}
-              <input
-                id="imageActive"
-                type="file"
-                accept=".svg"
-                className="absolute inset-0 z-50 size-full cursor-pointer opacity-0"
-                disabled={isSubmitting}
-                {...register('imageActive')}
-              />
             </div>
           </div>
 
           <div>
-            <label
-              htmlFor="imageInactive"
-              className="mb-2 block text-sm font-bold text-foreground"
-            >
-              New Inactive SVG (Optional)
+            <label className="mb-2 block text-sm font-bold text-foreground">
+              Inactive Media (Optional)
             </label>
+            <input type="hidden" {...register('imageInactiveId')} />
             <div
-              className={`relative flex w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed py-10 transition-colors ${
-                inactiveImageFile && inactiveImageFile.length > 0
-                  ? 'border-green-500 bg-green-50'
-                  : 'border-gray-300 bg-background hover:border-primary'
+              onClick={() => {
+                setTargetField('imageInactiveId')
+                setIsPickerOpen(true)
+              }}
+              className={`relative flex h-40 w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl border-2 transition-colors ${
+                inactivePreviewUrl || broth?.imageInactive?.url
+                  ? 'border-green-500 bg-gray-400/20 hover:bg-green-50'
+                  : 'border-dashed border-gray-300 bg-background hover:border-primary'
               }`}
             >
-              {inactiveImageFile && inactiveImageFile.length > 0 ? (
+              {inactivePreviewUrl || broth?.imageInactive?.url ? (
                 <>
-                  <CheckCircle2 className="mb-2 text-green-500" size={24} />
-                  <span className="truncate px-4 text-center text-xs font-medium text-green-700">
-                    {inactiveImageFile[0].name}
-                  </span>
+                  <Image
+                    src={`${env.NEXT_PUBLIC_IMAGES_BASE_URL}/${inactivePreviewUrl || broth.imageInactive.url}`}
+                    alt="Current Inactive Image"
+                    fill
+                    className="object-contain p-4"
+                  />
+                  {inactivePreviewUrl && (
+                    <div className="absolute top-2 left-2 rounded-md bg-green-500 px-2 py-1 text-[10px] font-bold text-white shadow">
+                      NEW SELECTION
+                    </div>
+                  )}
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity hover:opacity-100">
+                    <span className="rounded-full bg-white px-4 py-2 text-xs font-bold text-black shadow-lg">
+                      CHANGE MEDIA
+                    </span>
+                  </div>
                 </>
               ) : (
                 <>
-                  <Upload className="mb-2 text-primary" size={24} />
-                  <span className="text-xs text-foreground/70">
-                    Keep current or upload new
+                  <ImageIcon className="mb-2 text-primary" size={32} />
+                  <span className="text-xs font-medium text-foreground/70">
+                    Select from Media Library
                   </span>
                 </>
               )}
-              <input
-                id="imageInactive"
-                type="file"
-                accept=".svg"
-                className="absolute inset-0 z-50 size-full cursor-pointer opacity-0"
-                disabled={isSubmitting}
-                {...register('imageInactive')}
-              />
             </div>
           </div>
         </div>
@@ -316,6 +337,15 @@ export default function EditBrothPage() {
           )}
         </button>
       </form>
+
+      <MediaPickerModal
+        isOpen={isPickerOpen}
+        onClose={() => {
+          setIsPickerOpen(false)
+          setTargetField(null)
+        }}
+        onSelect={handleImageSelect}
+      />
     </div>
   )
 }

@@ -9,6 +9,8 @@ import { toast } from 'sonner'
 import { api } from '@/app/_lib/axios'
 import { env } from '@/app/env'
 
+import { MediaDetailsModal } from './MediaDetailsModal'
+
 interface MediaImage {
   id: string
   title: string
@@ -22,6 +24,7 @@ interface FetchGalleryResponse {
 export function MediaLibrary() {
   const [page, setPage] = useState(1)
   const [showDropzone, setShowDropzone] = useState(false)
+  const [selectedImage, setSelectedImage] = useState<MediaImage | null>(null)
   const queryClient = useQueryClient()
 
   const { data, isLoading, isError } = useQuery({
@@ -149,6 +152,7 @@ export function MediaLibrary() {
         {images.map((image) => (
           <div
             key={image.id}
+            onClick={() => setSelectedImage(image)}
             className="group relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-gray-200 bg-white transition-all hover:border-secondary hover:shadow-md"
           >
             <Image
@@ -189,6 +193,14 @@ export function MediaLibrary() {
         <div className="flex h-64 flex-col items-center justify-center rounded-xl border border-dashed border-gray-200 text-gray-500">
           <p>No media files found.</p>
         </div>
+      )}
+
+      {selectedImage && (
+        <MediaDetailsModal
+          image={selectedImage}
+          isOpen={true}
+          onClose={() => setSelectedImage(null)}
+        />
       )}
     </div>
   )
