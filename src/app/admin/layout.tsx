@@ -1,4 +1,4 @@
-import { Beef, LayoutDashboard, ListOrdered, Soup } from 'lucide-react'
+import { Beef, Images, LayoutDashboard, ListOrdered, Soup } from 'lucide-react'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 
@@ -22,6 +22,14 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             >
               <LayoutDashboard size={20} />
               Dashboard
+            </Link>
+
+            <Link
+              href="/admin/media"
+              className="flex items-center gap-3 rounded-lg px-4 py-3 font-medium text-foreground transition-colors hover:bg-secondary/10 hover:text-secondary"
+            >
+              <Images size={20} />
+              Medias
             </Link>
 
             <Link

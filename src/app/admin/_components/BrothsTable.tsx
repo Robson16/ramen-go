@@ -9,13 +9,18 @@ import { toast } from 'sonner'
 import { api } from '@/app/_lib/axios'
 import { env } from '@/app/env'
 
+interface BrothImage {
+  id: string
+  url: string
+}
+
 interface Broth {
   id: string
   name: string
   description: string
   price: number
-  imageActive: string
-  imageInactive: string
+  imageActive: BrothImage
+  imageInactive: BrothImage
 }
 
 export function BrothsTable() {
@@ -29,6 +34,7 @@ export function BrothsTable() {
     queryKey: ['broths'],
     queryFn: async () => {
       const response = await api.get<{ broths: Broth[] }>('/broths')
+
       return response.data.broths
     },
   })
@@ -89,7 +95,7 @@ export function BrothsTable() {
               <td className="px-6 py-4">
                 <div className="relative flex size-16 items-center justify-center rounded-full bg-transparent shadow-sm transition-colors group-hover:bg-primary">
                   <Image
-                    src={`${env.NEXT_PUBLIC_IMAGES_BASE_URL}/${broth.imageInactive}`}
+                    src={`${env.NEXT_PUBLIC_IMAGES_BASE_URL}/${broth.imageInactive.url}`}
                     alt={broth.name}
                     width={48}
                     height={48}
@@ -97,7 +103,7 @@ export function BrothsTable() {
                   />
 
                   <Image
-                    src={`${env.NEXT_PUBLIC_IMAGES_BASE_URL}/${broth.imageActive}`}
+                    src={`${env.NEXT_PUBLIC_IMAGES_BASE_URL}/${broth.imageActive.url}`}
                     alt={broth.name}
                     width={48}
                     height={48}
