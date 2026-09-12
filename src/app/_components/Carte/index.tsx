@@ -13,8 +13,14 @@ import { env } from '@/app/env'
 
 interface Ingredient {
   id: string
-  imageActive: string
-  imageInactive: string
+  imageActive: {
+    id: string
+    url: string
+  }
+  imageInactive: {
+    id: string
+    url: string
+  }
   name: string
   description: string
   price: number
@@ -130,14 +136,14 @@ export function Carte() {
         />
 
         <Image
-          src={`${env.NEXT_PUBLIC_IMAGES_BASE_URL}/${item.imageInactive}`}
+          src={`${env.NEXT_PUBLIC_IMAGES_BASE_URL}/${item.imageInactive.url}`}
           alt={item.name}
           width={120}
           height={120}
           className="mx-auto block size-32 object-contain group-has-checked:hidden"
         />
         <Image
-          src={`${env.NEXT_PUBLIC_IMAGES_BASE_URL}/${item.imageActive}`}
+          src={`${env.NEXT_PUBLIC_IMAGES_BASE_URL}/${item.imageActive.url}`}
           alt={item.name}
           width={120}
           height={120}
