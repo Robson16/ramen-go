@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.6.0](https://github.com/Robson16/ramen-go/compare/v2.5.1...v2.6.0) (2026-09-12)
+
+### Features
+
+* **admin:** implement dashboard metrics overview (Epic 7) ([fe3d181](https://github.com/Robson16/ramen-go/commit/fe3d1811096f2ee353ec29a79a521a034a263e47))
+* **admin:** implement decoupled media library and catalog image picker ([e04ed9b](https://github.com/Robson16/ramen-go/commit/e04ed9ba6fbb1dd56b15d15206a87a55b6b8937a))
+* **admin:** implement media library gallery and multiple upload (Epic 8) ([08d6f9e](https://github.com/Robson16/ramen-go/commit/08d6f9e5f4d6f132538a8e3eaa99d37144054ed2))
+* disabling the change of order status if the order is delivered. ([371b18a](https://github.com/Robson16/ramen-go/commit/371b18a47f7c8089c0a0c062a7f0241edc027022))
+
+### Bug Fixes
+
+* imagem src for carte ([17cfd36](https://github.com/Robson16/ramen-go/commit/17cfd367f07c5d31b572191828c2ade37861a3cb))
 ## [2.5.1](https://github.com/Robson16/ramen-go/compare/v2.5.0...v2.5.1) (2026-09-03)
 ## [2.5.0](https://github.com/Robson16/ramen-go/compare/v2.4.0...v2.5.0) (2026-09-03)
 
