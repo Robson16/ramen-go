@@ -68,12 +68,13 @@ export default function EditProteinPage() {
   )
 
   const { data: protein, isLoading: isLoadingProtein } = useQuery({
-    queryKey: ['proteins'],
+    queryKey: ['proteins', proteinId],
     queryFn: async () => {
-      const response = await api.get<{ proteins: Protein[] }>('/proteins')
-      return response.data.proteins
+      const response = await api.get<{ protein: Protein }>(
+        `/proteins/${proteinId}`,
+      )
+      return response.data.protein
     },
-    select: (proteins) => proteins.find((protein) => protein.id === proteinId),
   })
 
   const {

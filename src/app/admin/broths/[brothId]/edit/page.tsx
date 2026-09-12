@@ -68,12 +68,11 @@ export default function EditBrothPage() {
   )
 
   const { data: broth, isLoading: isLoadingBroth } = useQuery({
-    queryKey: ['broths'],
+    queryKey: ['broths', brothId],
     queryFn: async () => {
-      const response = await api.get<{ broths: Broth[] }>('/broths')
-      return response.data.broths
+      const response = await api.get<{ broth: Broth }>(`/broths/${brothId}`)
+      return response.data.broth
     },
-    select: (broths) => broths.find((broth) => broth.id === brothId),
   })
 
   const {
