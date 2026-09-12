@@ -160,7 +160,7 @@ export function AdminOrdersTable() {
                         status: e.target.value,
                       })
                     }
-                    disabled={isUpdating}
+                    disabled={isUpdating || order.status === 'DELIVERED'}
                     className="cursor-pointer rounded-lg border border-gray-300 bg-white p-2 text-sm font-medium transition-colors outline-none hover:border-primary focus:border-primary disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <option value="PENDING">Pending</option>

@@ -179,5 +179,5 @@ Este documento mapeia todas as tarefas necessárias para atualizar a interface w
 
 > _"Como administrador, preciso entender o porquê de certas ações serem bloqueadas, para manter o catálogo consistente."_
 
-- [ ] Melhorar o tratamento de erro na edição de Status do Pedido: capturar o erro `409 Conflict` ("The order has already been delivered") e desabilitar o select de status.
+- [x] Melhorar o tratamento de erro na edição de Status do Pedido: capturar o erro `409 Conflict` ("The order has already been delivered") e desabilitar o select de status.
 - [x] Tratamento global para erros de conflito (`409`) em deleções: se tentar excluir um Caldo que já está em um pedido, ou uma Imagem que está num Caldo, mostrar um toast explicativo.
